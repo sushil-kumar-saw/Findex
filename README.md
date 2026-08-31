@@ -38,27 +38,6 @@ Search problems the way you think about them — by keyword, by concept/story (e
 
 ---
 
-## 🚀 Quick Start
-
-### 1. Clone & Install
-```bash
-git clone https://github.com/sushil-kumar-saw/Findex.git
-cd findex
-npm install
-```
-
-### 2. (Optional) Scrape / Sync Latest Problems
-```bash
-npm run scrape
-```
-
-### 3. Run Server
-```bash
-npm start
-```
-Open **[http://localhost:3000](http://localhost:3000)** in your browser.
-
----
 
 ## 📜 API Endpoints
 

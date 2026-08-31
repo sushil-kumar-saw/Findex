@@ -4,95 +4,162 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Search Engine</title>
+    <title>Findex — Search Engine</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <h1>Search Engine</h1>
+    <div class="container">
+      <header class="header">
+        <div class="logo">
+          <span class="logo-icon">🔍</span>
+          <h1>Findex</h1>
+        </div>
+        <p class="tagline">Smart Information Retrieval & Programming Question Search</p>
+      </header>
 
-    <form>
-      <input type="text" name="question" id="question" />
-      <input type="submit" value="Ask Me:))" />
-    </form>
+      <div class="search-section">
+        <form id="search-form" class="search-box">
+          <input
+            type="text"
+            name="question"
+            id="question"
+            placeholder="Search problems, topics (e.g. Two Sum, Dynamic Programming, Tree)..."
+            autocomplete="off"
+            required
+          />
+          <button type="submit" id="search-btn">
+            <span>Search</span>
+          </button>
+        </form>
 
-    <div class="loading"></div>
+        <div class="quick-tags">
+          <span class="tags-label">Popular:</span>
+          <button class="tag-chip" data-query="Two Sum">Two Sum</button>
+          <button class="tag-chip" data-query="Linked List">Linked List</button>
+          <button class="tag-chip" data-query="Binary Tree">Binary Tree</button>
+          <button class="tag-chip" data-query="Dynamic Programming">Dynamic Programming</button>
+          <button class="tag-chip" data-query="Graph">Graph</button>
+        </div>
+      </div>
 
-    <div class="question">
-      <div class="title"></div>
-      <div class="url">
-        <a href=""></a>
+      <div id="loading" class="loading hidden">
+        <div class="spinner"></div>
+        <span>Searching index...</span>
       </div>
-      <div class="body"></div>
-    </div>
-    <div class="question">
-      <div class="title"></div>
-      <div class="url">
-        <a href=""></a>
+
+      <div id="results-count" class="results-count hidden"></div>
+
+      <div id="results-container" class="results-grid">
+        <!-- Results will be dynamically populated here -->
       </div>
-      <div class="body"></div>
     </div>
-    <div class="question">
-      <div class="title"></div>
-      <div class="url">
-        <a href=""></a>
-      </div>
-      <div class="body"></div>
-    </div>
-    <div class="question">
-      <div class="title"></div>
-      <div class="url">
-        <a href=""></a>
-      </div>
-      <div class="body"></div>
-    </div>
-    <div class="question">
-      <div class="title"></div>
-      <div class="url">
-        <a href=""></a>
-      </div>
-      <div class="body"></div>
-    </div>
+
+    <script>
+      const form = document.getElementById("search-form");
+      const questionInput = document.getElementById("question");
+      const resultsContainer = document.getElementById("results-container");
+      const loadingDiv = document.getElementById("loading");
+      const resultsCountDiv = document.getElementById("results-count");
+      const tagChips = document.querySelectorAll(".tag-chip");
+
+      // Handle Quick Tags
+      tagChips.forEach((chip) => {
+        chip.addEventListener("click", () => {
+          questionInput.value = chip.dataset.query;
+          performSearch(chip.dataset.query);
+        });
+      });
+
+      // Handle Form Submit
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const query = questionInput.value.trim();
+        if (query) {
+          performSearch(query);
+        }
+      });
+
+      async function performSearch(query) {
+        loadingDiv.classList.remove("hidden");
+        resultsCountDiv.classList.add("hidden");
+        resultsContainer.innerHTML = "";
+
+        try {
+          const res = await fetch(`/search?question=${encodeURIComponent(query)}`);
+          const data = await res.json();
+
+          loadingDiv.classList.add("hidden");
+
+          if (!data || data.length === 0) {
+            resultsContainer.innerHTML = `
+              <div class="empty-state">
+                <p>No questions found for "<strong>${escapeHtml(query)}</strong>"</p>
+                <span>Try searching for terms like "Array", "Tree", "Stack", or "List".</span>
+              </div>
+            `;
+            return;
+          }
+
+          resultsCountDiv.textContent = `Found ${data.length} relevant questions`;
+          resultsCountDiv.classList.remove("hidden");
+
+          resultsContainer.innerHTML = data
+            .map(
+              (item) => `
+              <article class="question-card">
+                <div class="card-header">
+                  <h3 class="card-title">
+                    <a href="${item.url}" target="_blank" rel="noopener noreferrer">
+                      ${escapeHtml(item.title)}
+                      <span class="external-icon">↗</span>
+                    </a>
+                  </h3>
+                  ${
+                    item.difficulty
+                      ? `<span class="badge badge-${item.difficulty.toLowerCase()}">${item.difficulty}</span>`
+                      : ""
+                  }
+                </div>
+                <p class="card-statement">${escapeHtml(item.statement)}</p>
+                <div class="card-footer">
+                  <div class="card-tags">
+                    ${(item.tags || [])
+                      .map((tag) => `<span class="topic-tag">${escapeHtml(tag)}</span>`)
+                      .join("")}
+                  </div>
+                  <a class="source-link" href="${item.url}" target="_blank" rel="noopener noreferrer">
+                    Open Problem
+                  </a>
+                </div>
+              </article>
+            `
+            )
+            .join("");
+        } catch (err) {
+          loadingDiv.classList.add("hidden");
+          resultsContainer.innerHTML = `
+            <div class="error-state">
+              <p>An error occurred while fetching results. Please try again.</p>
+            </div>
+          `;
+        }
+      }
+
+      function escapeHtml(str) {
+        if (!str) return "";
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#039;");
+      }
+
+      // Initial search load with top questions
+      performSearch("");
+    </script>
   </body>
 </html>
-
-<script>
-  const form = document.querySelector("form");
-  const questionElement = form.question;
-
-  const questions = document.querySelectorAll(".question");
-  const titles = document.querySelectorAll(".title");
-  const urls = document.querySelectorAll(".url");
-  const quesBody = document.querySelectorAll(".body");
-  const loadingDiv = document.querySelector(".loading");
-
-  //   console.log(questions);
-  //   console.log(titles);
-  //   console.log(urls);
-  //   console.log(quesBody);
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const question = questionElement.value;
-    for (let i = 0; i < 5; i++) {
-      titles[i].innerHTML = ``;
-    }
-
-    loadingDiv.innerHTML = `Loading...`;
-    //fetch
-
-    try {
-      const res = await fetch(`/search?question=${question}`, {
-        method: "GET",
-      });
-      const data = await res.json();
-
-      loadingDiv.innerHTML = ``;
-
-      for (let i = 0; i < 5; i++) {
-        titles[i].innerHTML = `<h3>${data[i].title}</h3>`;
-      }
-    } catch (error) {
-      alert(error);
-    }
-  });
-</script>

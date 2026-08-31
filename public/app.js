@@ -1,59 +1,99 @@
-// Client Application logic for Findex
+/**
+ * Findex v2.0 Client Application Logic
+ */
 
 document.addEventListener("DOMContentLoaded", () => {
-  // State
+  // Application State
   let bookmarks = JSON.parse(localStorage.getItem("findex_bookmarks") || "[]");
   let doneList = JSON.parse(localStorage.getItem("findex_done") || "[]");
   let currentPattern = "";
+  let currentMode = "keyword";
+  let activeCardIndex = -1;
 
   // DOM Elements
   const form = document.getElementById("search-form");
   const searchInput = document.getElementById("search-input");
-  const modeSelect = document.getElementById("mode-select");
+  const clearInputBtn = document.getElementById("clear-input-btn");
   const judgeSelect = document.getElementById("judge-select");
   const compareToggle = document.getElementById("compare-toggle");
+  const modeChips = document.querySelectorAll(".mode-chip");
   const statusText = document.getElementById("status-text");
+  
+  // Views
   const resultsView = document.getElementById("results-view");
   const resultsList = document.getElementById("results-list");
   const compareView = document.getElementById("compare-view");
-  const kwResults = document.getElementById("kw-results");
-  const meaningResults = document.getElementById("meaning-results");
-  const kwLatency = document.getElementById("kw-latency");
-  const meaningLatency = document.getElementById("meaning-latency");
-  const bookmarksCount = document.getElementById("bookmarks-count");
-  const doneCount = document.getElementById("done-count");
+  const kwResultsList = document.getElementById("kw-results-list");
+  const meaningResultsList = document.getElementById("meaning-results-list");
+  const kwLatencyBadge = document.getElementById("kw-latency-badge");
+  const meaningLatencyBadge = document.getElementById("meaning-latency-badge");
+
+  // Counters
+  const statStarred = document.getElementById("stat-starred");
+  const statDone = document.getElementById("stat-done");
+  const chipBookmarksCount = document.getElementById("chip-bookmarks-count");
+  const chipDoneCount = document.getElementById("chip-done-count");
   const shellCwd = document.getElementById("shell-cwd");
-  const filterPillWrap = document.getElementById("filter-pill-wrap");
-  const activeFilterText = document.getElementById("active-filter-text");
-  const clearFilterBtn = document.getElementById("clear-filter");
+
+  // Filter Pill
+  const filterPillContainer = document.getElementById("filter-pill-container");
+  const activeFilterBadge = document.getElementById("active-filter-badge");
+  const clearFilterBtn = document.getElementById("clear-filter-btn");
+
+  // Action Buttons
   const themeToggle = document.getElementById("theme-toggle");
   const scrapeBtn = document.getElementById("scrape-btn");
   const helpBtn = document.getElementById("help-btn");
   const helpModal = document.getElementById("help-modal");
-  const closeHelp = document.getElementById("close-help");
-  const patBadges = document.querySelectorAll(".pat-badge");
-  const chipCmds = document.querySelectorAll(".chip-cmd");
+  const closeHelpBtn = document.getElementById("close-help-btn");
+  const taxonomyChips = document.querySelectorAll(".taxonomy-chip");
+  const shellChips = document.querySelectorAll(".shell-chip");
 
-  // Initialize UI counts
-  updateStorageCounts();
+  // Initialize
+  updateCounters();
   initTheme();
 
-  // Search Submit
+  // Search Input Input / Clear button visibility
+  searchInput.addEventListener("input", () => {
+    if (searchInput.value.trim().length > 0) {
+      clearInputBtn.classList.remove("hidden");
+    } else {
+      clearInputBtn.classList.add("hidden");
+    }
+  });
+
+  clearInputBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    clearInputBtn.classList.add("hidden");
+    searchInput.focus();
+    executeSearch();
+  });
+
+  // Search Form Submit
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const query = searchInput.value.trim();
     if (query.startsWith(":")) {
-      handleShellCommand(query);
+      handleCommand(query);
       return;
     }
     executeSearch();
   });
 
-  // Mode or Judge change
-  modeSelect.addEventListener("change", () => executeSearch());
+  // Mode Chips Switcher
+  modeChips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      modeChips.forEach((c) => c.classList.remove("active"));
+      chip.classList.add("active");
+      currentMode = chip.dataset.mode;
+      executeSearch();
+    });
+  });
+
+  // Judge Filter Change
   judgeSelect.addEventListener("change", () => executeSearch());
 
-  // Compare Toggle change
+  // Compare Toggle
   compareToggle.addEventListener("change", () => {
     if (compareToggle.checked) {
       resultsView.classList.add("hidden");
@@ -65,62 +105,87 @@ document.addEventListener("DOMContentLoaded", () => {
     executeSearch();
   });
 
-  // Pattern Badges Click
-  patBadges.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      setPatternFilter(btn.dataset.pattern);
+  // Taxonomy Chips Click
+  taxonomyChips.forEach((chip) => {
+    chip.addEventListener("click", () => {
+      setPatternFilter(chip.dataset.pat);
     });
   });
 
-  // Clear Filter
+  // Clear Filter Button
   clearFilterBtn.addEventListener("click", () => {
     setPatternFilter("");
   });
 
   // Shell Command Chips
-  chipCmds.forEach((chip) => {
+  shellChips.forEach((chip) => {
     chip.addEventListener("click", () => {
-      handleShellCommand(chip.dataset.cmd);
+      handleCommand(chip.dataset.cmd);
     });
   });
 
-  // Scrape Button Trigger
+  // Scraper / Ingestion Trigger
   scrapeBtn.addEventListener("click", async () => {
     scrapeBtn.disabled = true;
-    scrapeBtn.textContent = "⟳ scraping...";
-    setStatus("Scraping live problems from LeetCode & Codeforces...");
+    scrapeBtn.innerHTML = "<span class=\"sync-icon\">⟳</span> syncing...";
+    setStatus("Scraping live rated problems from Codeforces & LeetCode APIs...");
 
     try {
       const res = await fetch("/api/scrape", { method: "POST" });
       const data = await res.json();
       if (data.success) {
-        setStatus(`✓ Successfully scraped! Total problems in index: ${data.count}`);
-        document.getElementById("total-count").textContent = data.count;
+        setStatus(`✓ Sync complete! Index now contains ${data.count} problems.`);
+        document.getElementById("stat-total").textContent = data.count;
         executeSearch();
       } else {
-        setStatus(`Scraping warning: ${data.error || "failed"}`);
+        setStatus(`Sync note: ${data.error || "failed"}`);
       }
     } catch (e) {
-      setStatus("Error during scraping: " + e.message);
+      setStatus("Error during sync: " + e.message);
     } finally {
       scrapeBtn.disabled = false;
-      scrapeBtn.textContent = "⟳ sync / scrape";
+      scrapeBtn.innerHTML = "<span class=\"sync-icon\">⟳</span> sync corpus";
     }
   });
 
   // Help Modal Toggle
   helpBtn.addEventListener("click", () => helpModal.classList.toggle("hidden"));
-  closeHelp.addEventListener("click", () => helpModal.classList.add("hidden"));
+  closeHelpBtn.addEventListener("click", () => helpModal.classList.add("hidden"));
 
-  // Main Search Execution
+  // Keyboard Shortcuts (⌘K, /, Esc, Arrow Navigation)
+  document.addEventListener("keydown", (e) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      searchInput.focus();
+      searchInput.select();
+    } else if (e.key === "/" && document.activeElement !== searchInput) {
+      e.preventDefault();
+      searchInput.focus();
+      searchInput.select();
+    } else if (e.key === "Escape") {
+      if (!helpModal.classList.contains("hidden")) {
+        helpModal.classList.add("hidden");
+      } else if (searchInput.value) {
+        searchInput.value = "";
+        clearInputBtn.classList.add("hidden");
+        executeSearch();
+      }
+    } else if (e.key === "ArrowDown" && document.activeElement !== searchInput) {
+      navigateCards(1);
+    } else if (e.key === "ArrowUp" && document.activeElement !== searchInput) {
+      navigateCards(-1);
+    }
+  });
+
+  // Main Search Function
   async function executeSearch() {
     const query = searchInput.value.trim();
-    const mode = modeSelect.value;
     const judge = judgeSelect.value;
     const isCompare = compareToggle.checked;
 
     shellCwd.textContent = query ? `~/search "${query}"` : "~";
-    setStatus("querying index...");
+    setStatus("searching indexed corpus...");
+    activeCardIndex = -1;
 
     if (isCompare) {
       try {
@@ -129,11 +194,11 @@ document.addEventListener("DOMContentLoaded", () => {
           fetch(`/search?question=${encodeURIComponent(query)}&mode=meaning&pattern=${encodeURIComponent(currentPattern)}&judge=${judge}`).then(r => r.json())
         ]);
 
-        kwLatency.textContent = `${kwRes.latencyMs}ms · ${kwRes.total} results`;
-        meaningLatency.textContent = `${meaningRes.latencyMs}ms · ${meaningRes.total} results`;
+        kwLatencyBadge.textContent = `${kwRes.latencyMs}ms (${kwRes.total} hits)`;
+        meaningLatencyBadge.textContent = `${meaningRes.latencyMs}ms (${meaningRes.total} hits)`;
 
-        renderCards(kwRes.results, kwResults);
-        renderCards(meaningRes.results, meaningResults);
+        renderCards(kwRes.results, kwResultsList);
+        renderCards(meaningRes.results, meaningResultsList);
 
         setStatus(`compared: keyword (${kwRes.latencyMs}ms) vs meaning (${meaningRes.latencyMs}ms)`);
       } catch (err) {
@@ -141,12 +206,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     } else {
       try {
-        const res = await fetch(`/search?question=${encodeURIComponent(query)}&mode=${mode}&pattern=${encodeURIComponent(currentPattern)}&judge=${judge}`);
+        const res = await fetch(`/search?question=${encodeURIComponent(query)}&mode=${currentMode}&pattern=${encodeURIComponent(currentPattern)}&judge=${judge}`);
         const data = await res.json();
 
         let statusMsg = `${data.latencyMs}ms · ${data.total} results · mode: ${data.mode}`;
         if (data.appliedExpansion) {
-          statusMsg += ` · +expansion: ${data.appliedExpansion}`;
+          statusMsg += ` · +expansion: [${data.appliedExpansion}]`;
         }
         setStatus(statusMsg);
         renderCards(data.results, resultsList);
@@ -156,19 +221,23 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Shell Command Handling (:bookmarks, :done, :all, :help)
-  function handleShellCommand(cmd) {
-    if (cmd === ":bookmarks") {
+  // Handle Shell Commands
+  function handleCommand(cmd) {
+    if (cmd === ":bookmarks" || cmd === ":b") {
       shellCwd.textContent = "~/bookmarks";
-      renderSavedList(bookmarks, "No bookmarked problems. Click ★ on any problem to bookmark it.");
-    } else if (cmd === ":done") {
+      renderSavedCards(bookmarks, "No bookmarked problems yet. Click ★ on any problem to save it.");
+    } else if (cmd === ":done" || cmd === ":d") {
       shellCwd.textContent = "~/done";
-      renderSavedList(doneList, "No solved problems yet. Click ✓ on any problem when solved.");
-    } else if (cmd === ":all" || cmd === ":clear") {
+      renderSavedCards(doneList, "No solved problems yet. Click ✓ on any problem when you solve it.");
+    } else if (cmd === ":all") {
       searchInput.value = "";
       setPatternFilter("");
       executeSearch();
-    } else if (cmd === ":help") {
+    } else if (cmd === ":clear") {
+      searchInput.value = "";
+      setPatternFilter("");
+      executeSearch();
+    } else if (cmd === ":help" || cmd === ":?") {
       helpModal.classList.remove("hidden");
     } else if (cmd === ":scrape") {
       scrapeBtn.click();
@@ -178,22 +247,22 @@ document.addEventListener("DOMContentLoaded", () => {
   function setPatternFilter(pat) {
     currentPattern = pat;
     if (pat) {
-      filterPillWrap.classList.remove("hidden");
-      activeFilterText.textContent = "#" + pat;
+      filterPillContainer.classList.remove("hidden");
+      activeFilterBadge.textContent = "#" + pat;
     } else {
-      filterPillWrap.classList.add("hidden");
-      activeFilterText.textContent = "";
+      filterPillContainer.classList.add("hidden");
+      activeFilterBadge.textContent = "";
     }
     executeSearch();
   }
 
-  // Render Result Cards
+  // Card Rendering
   function renderCards(list, container) {
     if (!list || list.length === 0) {
       container.innerHTML = `
-        <div class="empty-notice">
-          <p>No matching problems found.</p>
-          <span>Try searching broader keywords, algorithms, or clearing filters.</span>
+        <div class="empty-results-box">
+          <p class="empty-title">No matching problems found</p>
+          <span class="empty-desc">Try broader terms (e.g. "array", "graph", "tree") or clear the judge/pattern filter.</span>
         </div>
       `;
       return;
@@ -202,39 +271,42 @@ document.addEventListener("DOMContentLoaded", () => {
     container.innerHTML = list.map((item) => {
       const isBookmarked = bookmarks.some((b) => b.id === item.id);
       const isDone = doneList.some((d) => d.id === item.id);
-      const diffClass = item.difficulty ? `diff-${item.difficulty.toLowerCase()}` : "";
+      const diffClass = item.difficulty ? `diff-${item.difficulty.toLowerCase()}` : "diff-medium";
       const judgeSlug = (item.judgeSlug || item.judge || "cf").toLowerCase();
 
       return `
-        <article class="card" data-id="${item.id}">
-          <div class="card-top">
-            <div class="card-title-group">
-              <span class="badge-judge judge-${judgeSlug}">${item.judge || "OJ"}</span>
-              <a class="card-title" href="${item.url}" target="_blank" rel="noopener noreferrer">
-                ${escapeHtml(item.title)} <span class="ext-icon">↗</span>
+        <article class="problem-card" data-id="${item.id}">
+          <div class="card-header-row">
+            <div class="card-title-container">
+              <span class="judge-tag judge-${judgeSlug}">${item.judge || "OJ"}</span>
+              <a class="card-heading-link" href="${item.url}" target="_blank" rel="noopener noreferrer">
+                ${escapeHtml(item.title)}
+                <span class="ext-arrow">↗</span>
               </a>
             </div>
-            ${item.difficulty ? `<span class="badge-diff ${diffClass}">${item.difficulty}${item.rating ? " (" + item.rating + ")" : ""}</span>` : ""}
+            <div class="card-meta-badges">
+              ${item.difficulty ? `<span class="difficulty-badge ${diffClass}">${item.difficulty}${item.rating ? " (" + item.rating + ")" : ""}</span>` : ""}
+            </div>
           </div>
 
-          <p class="card-statement">${escapeHtml(item.statement || "")}</p>
+          <p class="card-desc-body">${escapeHtml(item.statement || "")}</p>
 
-          <div class="card-bottom">
-            <div class="card-tags">
+          <div class="card-footer-row">
+            <div class="card-patterns-list">
               ${(item.patterns || item.tags || []).slice(0, 4).map(t => `
-                <span class="tag-item" data-tag="${escapeHtml(t)}">#${escapeHtml(t)}</span>
+                <span class="pattern-tag-item" data-tag="${escapeHtml(t)}">#${escapeHtml(t)}</span>
               `).join("")}
             </div>
 
-            <div class="card-actions">
-              <button type="button" class="btn-action btn-star ${isBookmarked ? "active-star" : ""}" data-id="${item.id}" title="Star / Bookmark">
-                ★
+            <div class="card-actions-group">
+              <button type="button" class="card-btn card-btn-star ${isBookmarked ? "active-star" : ""}" data-id="${item.id}" title="Star / Save Problem">
+                ★ <span>${isBookmarked ? "Saved" : "Star"}</span>
               </button>
-              <button type="button" class="btn-action btn-done ${isDone ? "active-done" : ""}" data-id="${item.id}" title="Mark Done">
-                ✓
+              <button type="button" class="card-btn card-btn-done ${isDone ? "active-done" : ""}" data-id="${item.id}" title="Mark Problem as Solved">
+                ✓ <span>${isDone ? "Solved" : "Done"}</span>
               </button>
-              <button type="button" class="btn-action btn-similar" data-id="${item.id}" title="Find Nearest Problems by Pattern">
-                ≈ similar
+              <button type="button" class="card-btn card-btn-similar" data-id="${item.id}" title="Find Nearest Technique Neighbors">
+                ≈ <span>Similar</span>
               </button>
             </div>
           </div>
@@ -242,12 +314,12 @@ document.addEventListener("DOMContentLoaded", () => {
       `;
     }).join("");
 
-    attachCardListeners(container, list);
+    attachListeners(container, list);
   }
 
-  function attachCardListeners(container, currentList) {
-    // Star bookmark
-    container.querySelectorAll(".btn-star").forEach((btn) => {
+  function attachListeners(container, currentList) {
+    // Star toggle
+    container.querySelectorAll(".card-btn-star").forEach((btn) => {
       btn.addEventListener("click", () => {
         const id = btn.dataset.id;
         const item = currentList.find((p) => p.id === id) || bookmarks.find(b => b.id === id);
@@ -257,17 +329,19 @@ document.addEventListener("DOMContentLoaded", () => {
         if (idx >= 0) {
           bookmarks.splice(idx, 1);
           btn.classList.remove("active-star");
+          btn.querySelector("span").textContent = "Star";
         } else {
           bookmarks.push(item);
           btn.classList.add("active-star");
+          btn.querySelector("span").textContent = "Saved";
         }
         localStorage.setItem("findex_bookmarks", JSON.stringify(bookmarks));
-        updateStorageCounts();
+        updateCounters();
       });
     });
 
-    // Mark Done
-    container.querySelectorAll(".btn-done").forEach((btn) => {
+    // Done toggle
+    container.querySelectorAll(".card-btn-done").forEach((btn) => {
       btn.addEventListener("click", () => {
         const id = btn.dataset.id;
         const item = currentList.find((p) => p.id === id) || doneList.find(d => d.id === id);
@@ -277,20 +351,22 @@ document.addEventListener("DOMContentLoaded", () => {
         if (idx >= 0) {
           doneList.splice(idx, 1);
           btn.classList.remove("active-done");
+          btn.querySelector("span").textContent = "Done";
         } else {
           doneList.push(item);
           btn.classList.add("active-done");
+          btn.querySelector("span").textContent = "Solved";
         }
         localStorage.setItem("findex_done", JSON.stringify(doneList));
-        updateStorageCounts();
+        updateCounters();
       });
     });
 
     // Find Similar
-    container.querySelectorAll(".btn-similar").forEach((btn) => {
+    container.querySelectorAll(".card-btn-similar").forEach((btn) => {
       btn.addEventListener("click", async () => {
         const id = btn.dataset.id;
-        setStatus("calculating similar pattern neighbors...");
+        setStatus("computing nearest pattern vectors...");
         try {
           const res = await fetch(`/similar?id=${encodeURIComponent(id)}`);
           const data = await res.json();
@@ -302,27 +378,42 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-    // Tag click
-    container.querySelectorAll(".tag-item").forEach((tagSpan) => {
+    // Pattern click
+    container.querySelectorAll(".pattern-tag-item").forEach((tagSpan) => {
       tagSpan.addEventListener("click", () => {
         setPatternFilter(tagSpan.dataset.tag);
       });
     });
   }
 
-  function renderSavedList(list, emptyMsg) {
+  function renderSavedCards(list, emptyMsg) {
     if (!list || list.length === 0) {
-      resultsList.innerHTML = `<div class="empty-notice"><p>${emptyMsg}</p></div>`;
-      setStatus(`0 items in current list`);
+      resultsList.innerHTML = `<div class="empty-results-box"><p class="empty-title">${emptyMsg}</p></div>`;
+      setStatus(`0 items in active list`);
       return;
     }
-    setStatus(`showing ${list.length} saved items`);
+    setStatus(`displaying ${list.length} saved items`);
     renderCards(list, resultsList);
   }
 
-  function updateStorageCounts() {
-    bookmarksCount.textContent = bookmarks.length;
-    doneCount.textContent = doneList.length;
+  function navigateCards(dir) {
+    const cards = resultsList.querySelectorAll(".problem-card");
+    if (!cards.length) return;
+
+    if (activeCardIndex >= 0 && cards[activeCardIndex]) {
+      cards[activeCardIndex].classList.remove("selected-card");
+    }
+
+    activeCardIndex = Math.max(0, Math.min(cards.length - 1, activeCardIndex + dir));
+    cards[activeCardIndex].classList.add("selected-card");
+    cards[activeCardIndex].scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }
+
+  function updateCounters() {
+    statStarred.textContent = bookmarks.length;
+    statDone.textContent = doneList.length;
+    chipBookmarksCount.textContent = bookmarks.length;
+    chipDoneCount.textContent = doneList.length;
   }
 
   function setStatus(msg) {
@@ -332,27 +423,20 @@ document.addEventListener("DOMContentLoaded", () => {
   function initTheme() {
     const savedTheme = localStorage.getItem("findex_theme") || "dark";
     document.documentElement.setAttribute("data-theme", savedTheme);
-    updateThemeButton(savedTheme);
+    updateThemeIcon(savedTheme);
 
     themeToggle.addEventListener("click", () => {
-      const current = document.documentElement.getAttribute("data-theme");
-      const next = current === "dark" ? "light" : "dark";
+      const cur = document.documentElement.getAttribute("data-theme");
+      const next = cur === "dark" ? "light" : "dark";
       document.documentElement.setAttribute("data-theme", next);
       localStorage.setItem("findex_theme", next);
-      updateThemeButton(next);
+      updateThemeIcon(next);
     });
   }
 
-  function updateThemeButton(theme) {
+  function updateThemeIcon(theme) {
     const icon = document.getElementById("theme-icon");
-    const text = document.getElementById("theme-text");
-    if (theme === "dark") {
-      icon.textContent = "☼";
-      text.textContent = "light mode";
-    } else {
-      icon.textContent = "☾";
-      text.textContent = "dark mode";
-    }
+    icon.textContent = theme === "dark" ? "☼" : "☾";
   }
 
   function escapeHtml(str) {
@@ -365,6 +449,6 @@ document.addEventListener("DOMContentLoaded", () => {
       .replace(/'/g, "&#039;");
   }
 
-  // Initial Search Load
+  // Trigger initial search
   executeSearch();
 });

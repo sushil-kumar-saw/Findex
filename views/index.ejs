@@ -3,197 +3,271 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>findex — search DSA problems by meaning & technique</title>
-    <meta name="description" content="Search competitive programming & DSA problems by keyword, meaning, or deep technique." />
+    <title>Findex — Smart Competitive Programming & DSA Search Engine</title>
+    <meta name="description" content="Search 2,500+ competitive programming & DSA problems by keyword, concept meaning, or algorithm pattern." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <div class="terminal-container">
-      <!-- Header -->
-      <header class="term-header">
-        <div class="term-brand">
-          <div class="terminal-dots">
-            <span class="dot dot-red"></span>
-            <span class="dot dot-yellow"></span>
-            <span class="dot dot-green"></span>
-          </div>
-          <h1 class="logo-title">
-            <svg class="brand-svg" viewBox="0 0 100 100" aria-hidden="true">
-              <polyline points="20,20 50,50 20,80" fill="none" stroke="currentColor" stroke-width="12" stroke-linejoin="miter"></polyline>
-              <rect x="60" y="32" width="16" height="36" fill="var(--accent)"></rect>
+    <!-- Top Global Announcement & Shortcuts Banner -->
+    <div class="top-nav-bar">
+      <div class="nav-brand-group">
+        <div class="terminal-dots">
+          <span class="dot dot-red"></span>
+          <span class="dot dot-yellow"></span>
+          <span class="dot dot-green"></span>
+        </div>
+        <div class="logo-wrapper">
+          <span class="logo-icon-svg">
+            <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22 24L52 50L22 76" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+              <rect x="62" y="34" width="16" height="34" rx="3" fill="var(--accent)"/>
             </svg>
-            findex
-            <span class="term-ver">v1.2</span>
-          </h1>
-        </div>
-
-        <nav class="term-nav">
-          <button type="button" id="theme-toggle" class="btn-term-sm">
-            <span id="theme-icon">☼</span> <span id="theme-text">light mode</span>
-          </button>
-          <button type="button" id="scrape-btn" class="btn-term-sm btn-accent" title="Fetch live problems from LeetCode and Codeforces">
-            ⟳ sync / scrape
-          </button>
-          <button type="button" id="help-btn" class="btn-term-sm" title="Show manual">
-            :help
-          </button>
-        </nav>
-      </header>
-
-      <!-- Tagline & Stats Banner -->
-      <div class="term-tagline">
-        <span class="tagline-text">
-          <span id="total-count"><%= totalProblems %></span> competitive programming problems · LeetCode, Codeforces, CSES, AtCoder · <code>:help</code> for manual
-        </span>
-      </div>
-
-      <!-- Search Command Line Interface -->
-      <form id="search-form" class="search-form" autocomplete="off">
-        <div class="search-bar-wrap">
-          <span class="search-prompt">$ findex</span>
-          <input
-            id="search-input"
-            type="search"
-            placeholder="thief robbing houses / aliens trick / course cycle / knapsack"
-            autocomplete="off"
-            spellcheck="false"
-          />
-        </div>
-
-        <div class="search-controls">
-          <select id="mode-select" class="select-term" title="Ranking Algorithm Mode">
-            <option value="keyword">keyword · bm25</option>
-            <option value="meaning">meaning · semantic</option>
-            <option value="both">both · hybrid</option>
-          </select>
-
-          <select id="judge-select" class="select-term" title="Filter by Online Judge">
-            <option value="all">all judges</option>
-            <option value="leetcode">LeetCode</option>
-            <option value="codeforces">Codeforces</option>
-            <option value="cses">CSES</option>
-            <option value="atcoder">AtCoder</option>
-          </select>
-
-          <button type="submit" id="submit-btn" class="btn-submit">
-            search ↵
-          </button>
-        </div>
-      </form>
-
-      <!-- Terminal Shell Prompt & Library Bar -->
-      <div class="shell-bar">
-        <div class="shell-path">
-          <span class="shell-host">findex:</span><span id="shell-cwd" class="shell-dir">~</span><span class="shell-cursor">$</span>
-        </div>
-        <div class="shell-chips">
-          <button type="button" class="chip-cmd" data-cmd=":bookmarks">
-            ★ <span id="bookmarks-count">0</span> bookmarks
-          </button>
-          <button type="button" class="chip-cmd" data-cmd=":done">
-            ✓ <span id="done-count">0</span> done
-          </button>
-          <button type="button" class="chip-cmd" data-cmd=":all">
-            :ls all
-          </button>
-          <button type="button" class="chip-cmd" data-cmd=":clear">
-            ↺ reset
-          </button>
+          </span>
+          <span class="logo-text">findex</span>
+          <span class="version-tag">v2.0</span>
         </div>
       </div>
 
-      <!-- Mode Options & Compare Row -->
-      <div class="options-row">
-        <label class="toggle-label" title="Run keyword vs semantic search side-by-side">
-          <input type="checkbox" id="compare-toggle" />
-          <span class="toggle-text">compare keyword / meaning</span>
-        </label>
-
-        <div class="popular-patterns">
-          <span class="pattern-lbl">patterns:</span>
-          <button type="button" class="pat-badge" data-pattern="dynamic-programming">#dynamic-programming</button>
-          <button type="button" class="pat-badge" data-pattern="wqs-binary-search">#wqs-binary-search</button>
-          <button type="button" class="pat-badge" data-pattern="segment-tree">#segment-tree</button>
-          <button type="button" class="pat-badge" data-pattern="topological-sort">#topological-sort</button>
-          <button type="button" class="pat-badge" data-pattern="two-pointers">#two-pointers</button>
-          <button type="button" class="pat-badge" data-pattern="tree-dp">#tree-dp</button>
+      <!-- Quick Metrics Counter Widget -->
+      <div class="quick-stats-widget">
+        <div class="stat-pill" title="Total Indexed Problems">
+          <span class="stat-icon">📚</span>
+          <span id="stat-total"><%= totalProblems %></span>
+          <span class="stat-lbl">problems</span>
+        </div>
+        <div class="stat-pill" title="Solved Problems (Stored in browser)">
+          <span class="stat-icon">✓</span>
+          <span id="stat-done">0</span>
+          <span class="stat-lbl">solved</span>
+        </div>
+        <div class="stat-pill" title="Starred Problems">
+          <span class="stat-icon">★</span>
+          <span id="stat-starred">0</span>
+          <span class="stat-lbl">saved</span>
         </div>
       </div>
 
-      <!-- Filter Active Pill -->
-      <div id="filter-pill-wrap" class="filter-pill-wrap hidden">
-        <span class="active-filter-label">Filter:</span>
-        <span id="active-filter-text" class="active-filter-chip"></span>
-        <button type="button" id="clear-filter" class="btn-clear-filter">✕ clear</button>
+      <!-- Action Navigation -->
+      <div class="nav-actions">
+        <button type="button" id="theme-toggle" class="btn-icon" title="Toggle Light/Dark Theme">
+          <span id="theme-icon">☼</span>
+        </button>
+        <button type="button" id="scrape-btn" class="btn-action-sync" title="Sync live problems from LeetCode & Codeforces">
+          <span class="sync-icon">⟳</span> sync corpus
+        </button>
+        <button type="button" id="help-btn" class="btn-action-ghost" title="Keyboard shortcuts & documentation">
+          <span class="kbd-badge">?</span> :help
+        </button>
       </div>
-
-      <!-- Status & Engine Latency Indicator -->
-      <div id="status-line" class="status-line">
-        <span id="status-text">ready</span>
-      </div>
-
-      <!-- Help / Modal Manual -->
-      <div id="help-modal" class="help-box hidden">
-        <div class="help-header">
-          <span>MANUAL(1) — findex search engine</span>
-          <button type="button" id="close-help" class="close-help">✕</button>
-        </div>
-        <pre class="help-content">
-NAME
-     findex — smart problem search engine for LeetCode, Codeforces, CSES & AtCoder
-
-SYNOPSIS
-     findex [query] [--mode=keyword|meaning|both] [--judge=all|leetcode|codeforces]
-
-SEARCH MODES
-     keyword      BM25/TF-IDF word matching across titles, tags, and statements.
-     meaning      Plain-English concept & alias search (e.g. "thief robbing", "aliens trick").
-     both         Hybrid weighted combination of keyword + semantic score.
-
-SPECIAL COMMANDS
-     :bookmarks   Show starred problems
-     :done        Show solved / marked done problems
-     :all         List all indexed problems
-     :help        Display this manual
-     :scrape      Trigger live problem scraper from LeetCode & Codeforces APIs
-
-FEATURES
-     • Find Similar: Click [≈ similar] on any card to find nearest pattern neighbors.
-     • Compare Mode: Toggle "compare keyword / meaning" to evaluate rankers side by side.
-        </pre>
-      </div>
-
-      <!-- Single Search Results Grid -->
-      <div id="results-view" class="results-view">
-        <div id="results-list" class="results-list"></div>
-      </div>
-
-      <!-- Compare Grid (Side by Side) -->
-      <div id="compare-view" class="compare-grid hidden">
-        <div class="compare-col">
-          <div class="compare-col-header">
-            <h3>Keyword Ranker (BM25)</h3>
-            <span id="kw-latency" class="col-latency"></span>
-          </div>
-          <div id="kw-results" class="results-list"></div>
-        </div>
-        <div class="compare-col">
-          <div class="compare-col-header">
-            <h3>Meaning Ranker (Semantic)</h3>
-            <span id="meaning-latency" class="col-latency"></span>
-          </div>
-          <div id="meaning-results" class="results-list"></div>
-        </div>
-      </div>
-
-      <!-- Footer -->
-      <footer class="term-footer">
-        <span>findex v1.2 · LeetCode · Codeforces · CSES · AtCoder · <a href="https://github.com/sushil-kumar-saw/Findex" target="_blank">github</a></span>
-      </footer>
     </div>
+
+    <!-- Main Container -->
+    <main class="main-content">
+      <!-- Hero Tagline -->
+      <section class="hero-section">
+        <h2 class="hero-title">Search DSA problems the way you think about them.</h2>
+        <p class="hero-subtitle">
+          By <strong>keyword</strong>, by <strong>story / concept</strong> (<em>"a thief robbing houses"</em>), or by <strong>deep algorithm technique</strong> (<em>"wqs binary search"</em>).
+        </p>
+      </section>
+
+      <!-- Search Command Center -->
+      <section class="search-command-center">
+        <form id="search-form" class="search-box-card" autocomplete="off">
+          <div class="search-main-row">
+            <span class="search-indicator-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <input
+              id="search-input"
+              type="text"
+              placeholder="Search problems (e.g. thief robbing, aliens trick, course schedule, segment tree)..."
+              autocomplete="off"
+              spellcheck="false"
+              autofocus
+            />
+            <button type="button" id="clear-input-btn" class="clear-btn hidden" title="Clear input">✕</button>
+            <div class="search-kbd-hint">
+              <kbd class="kbd-key">⌘</kbd><kbd class="kbd-key">K</kbd>
+            </div>
+            <button type="submit" id="search-btn" class="btn-execute-search">
+              <span>Search</span>
+              <span class="kbd-enter">↵</span>
+            </button>
+          </div>
+
+          <!-- Filter & Controls Toolbar -->
+          <div class="search-toolbar">
+            <div class="toolbar-left">
+              <!-- Mode Selection -->
+              <div class="control-group">
+                <span class="control-label">Ranker:</span>
+                <div class="mode-chips">
+                  <button type="button" class="mode-chip active" data-mode="keyword" title="BM25 word match across titles and statements">
+                    keyword
+                  </button>
+                  <button type="button" class="mode-chip" data-mode="meaning" title="Plain English semantic concept & alias search">
+                    meaning
+                  </button>
+                  <button type="button" class="mode-chip" data-mode="both" title="Blended hybrid ranking">
+                    both
+                  </button>
+                </div>
+              </div>
+
+              <!-- Judge Selection -->
+              <div class="control-group">
+                <span class="control-label">Judge:</span>
+                <select id="judge-select" class="custom-select">
+                  <option value="all">All Judges</option>
+                  <option value="leetcode">LeetCode</option>
+                  <option value="codeforces">Codeforces</option>
+                  <option value="cses">CSES</option>
+                  <option value="atcoder">AtCoder</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Side-by-Side Compare Toggle -->
+            <div class="toolbar-right">
+              <label class="compare-switch" title="Run keyword and meaning search side-by-side to compare results">
+                <input type="checkbox" id="compare-toggle" />
+                <span class="switch-slider"></span>
+                <span class="switch-label">compare rankers</span>
+              </label>
+            </div>
+          </div>
+        </form>
+
+        <!-- Shell Library Toolbar -->
+        <div class="shell-action-bar">
+          <div class="shell-prompt-display">
+            <span class="shell-user">findex</span><span class="shell-colon">:</span><span id="shell-cwd" class="shell-path">~</span><span class="shell-cursor">$</span>
+          </div>
+          <div class="shell-quick-chips">
+            <button type="button" class="shell-chip" data-cmd=":bookmarks">
+              ★ <span id="chip-bookmarks-count">0</span> saved
+            </button>
+            <button type="button" class="shell-chip" data-cmd=":done">
+              ✓ <span id="chip-done-count">0</span> solved
+            </button>
+            <button type="button" class="shell-chip" data-cmd=":all">
+              :ls all
+            </button>
+            <button type="button" class="shell-chip" data-cmd=":clear">
+              ↺ reset
+            </button>
+          </div>
+        </div>
+
+        <!-- Pattern Taxonomy Chips -->
+        <div class="patterns-bar">
+          <span class="patterns-title">taxonomy:</span>
+          <div class="patterns-scroll-list">
+            <button type="button" class="taxonomy-chip" data-pat="dynamic-programming">#dynamic-programming</button>
+            <button type="button" class="taxonomy-chip" data-pat="wqs-binary-search">#wqs-binary-search</button>
+            <button type="button" class="taxonomy-chip" data-pat="segment-tree">#segment-tree</button>
+            <button type="button" class="taxonomy-chip" data-pat="topological-sort">#topological-sort</button>
+            <button type="button" class="taxonomy-chip" data-pat="monotonic-stack">#monotonic-stack</button>
+            <button type="button" class="taxonomy-chip" data-pat="tree-dp">#tree-dp</button>
+            <button type="button" class="taxonomy-chip" data-pat="two-pointers">#two-pointers</button>
+            <button type="button" class="taxonomy-chip" data-pat="binary-lifting">#binary-lifting</button>
+          </div>
+        </div>
+
+        <!-- Active Filter Badge (if any) -->
+        <div id="filter-pill-container" class="filter-pill-container hidden">
+          <span class="filter-pill-label">Active Filter:</span>
+          <span id="active-filter-badge" class="filter-pill-badge"></span>
+          <button type="button" id="clear-filter-btn" class="filter-pill-clear" title="Clear this pattern filter">✕ clear</button>
+        </div>
+
+        <!-- Typewriter Engine Status Indicator -->
+        <div class="engine-status-bar">
+          <div class="status-indicator-dot"></div>
+          <span id="status-text" class="status-msg">ready</span>
+        </div>
+      </section>
+
+      <!-- Documentation / Help Modal -->
+      <section id="help-modal" class="modal-manual hidden">
+        <div class="manual-header">
+          <div class="manual-title">
+            <span class="term-prompt-icon">&gt;</span> findex(1) manual page
+          </div>
+          <button type="button" id="close-help-btn" class="manual-close-btn">✕</button>
+        </div>
+        <div class="manual-body">
+          <div class="manual-section">
+            <h4>SEARCH MODES</h4>
+            <p><code>keyword</code> — BM25 term frequency matching across problem titles, statements, and canonical pattern tags.</p>
+            <p><code>meaning</code> — Semantic story/concept matching. Try searching "thief robbing houses", "cycle in courses", "aliens trick".</p>
+            <p><code>both</code> — Blended hybrid ranking scoring both exact keyword matches and semantic concept embeddings.</p>
+          </div>
+          <div class="manual-section">
+            <h4>KEYBOARD SHORTCUTS</h4>
+            <div class="shortcuts-table">
+              <div><kbd>/</kbd> or <kbd>⌘</kbd> + <kbd>K</kbd> <span>Focus search input</span></div>
+              <div><kbd>Esc</kbd> <span>Clear input / close modal</span></div>
+              <div><kbd>↑</kbd> / <kbd>↓</kbd> <span>Navigate problem cards</span></div>
+            </div>
+          </div>
+          <div class="manual-section">
+            <h4>BUILT-IN COMMANDS</h4>
+            <p><code>:bookmarks</code> or <code>:b</code> — View saved/starred problems.</p>
+            <p><code>:done</code> or <code>:d</code> — View solved problems.</p>
+            <p><code>:all</code> — List all indexed problems in dataset.</p>
+            <p><code>:scrape</code> — Trigger background scraper for LeetCode & Codeforces.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Standard Single Ranker View -->
+      <section id="results-view" class="results-container">
+        <div id="results-list" class="cards-grid"></div>
+      </section>
+
+      <!-- Side-by-Side Comparison Grid -->
+      <section id="compare-view" class="compare-container hidden">
+        <div class="compare-pane">
+          <div class="pane-header">
+            <div class="pane-title">
+              <span class="pane-badge">BM25</span>
+              <span>Keyword Ranker</span>
+            </div>
+            <span id="kw-latency-badge" class="latency-pill">0.0ms</span>
+          </div>
+          <div id="kw-results-list" class="cards-grid"></div>
+        </div>
+
+        <div class="compare-pane">
+          <div class="pane-header">
+            <div class="pane-title">
+              <span class="pane-badge pane-badge-semantic">SEMANTIC</span>
+              <span>Meaning Ranker</span>
+            </div>
+            <span id="meaning-latency-badge" class="latency-pill">0.0ms</span>
+          </div>
+          <div id="meaning-results-list" class="cards-grid"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer-bar">
+      <div class="footer-content">
+        <span>findex v2.0 · Open Source Information Retrieval & DSA Engine</span>
+        <div class="footer-links">
+          <span>LeetCode</span> • <span>Codeforces</span> • <span>CSES</span> • <span>AtCoder</span>
+        </div>
+      </div>
+    </footer>
 
     <script src="/app.js"></script>
   </body>

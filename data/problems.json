@@ -1,0 +1,1732 @@
+[
+  {
+    "id": "lc-1",
+    "judge": "LeetCode",
+    "judgeSlug": "leetcode",
+    "problemId": "1",
+    "title": "1. Two Sum",
+    "titleSlug": "two-sum",
+    "url": "https://leetcode.com/problems/two-sum/",
+    "difficulty": "Easy",
+    "rating": 1100,
+    "tags": [
+      "Array",
+      "Hash Table"
+    ],
+    "patterns": [
+      "hash-table",
+      "two-pointers"
+    ],
+    "statement": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target."
+  },
+  {
+    "id": "lc-4",
+    "judge": "LeetCode",
+    "judgeSlug": "leetcode",
+    "problemId": "4",
+    "title": "4. Median of Two Sorted Arrays",
+    "titleSlug": "median-of-two-sorted-arrays",
+    "url": "https://leetcode.com/problems/median-of-two-sorted-arrays/",
+    "difficulty": "Hard",
+    "rating": 2200,
+    "tags": [
+      "Array",
+      "Binary Search",
+      "Divide and Conquer"
+    ],
+    "patterns": [
+      "binary-search",
+      "divide-and-conquer"
+    ],
+    "statement": "Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays in O(log(m+n)) time."
+  },
+  {
+    "id": "lc-198",
+    "judge": "LeetCode",
+    "judgeSlug": "leetcode",
+    "problemId": "198",
+    "title": "198. House Robber",
+    "titleSlug": "house-robber",
+    "url": "https://leetcode.com/problems/house-robber/",
+    "difficulty": "Medium",
+    "rating": 1400,
+    "tags": [
+      "Array",
+      "Dynamic Programming"
+    ],
+    "patterns": [
+      "dynamic-programming",
+      "linear-dp"
+    ],
+    "statement": "You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected."
+  },
+  {
+    "id": "lc-213",
+    "judge": "LeetCode",
+    "judgeSlug": "leetcode",
+    "problemId": "213",
+    "title": "213. House Robber II",
+    "titleSlug": "house-robber-ii",
+    "url": "https://leetcode.com/problems/house-robber-ii/",
+    "difficulty": "Medium",
+    "rating": 1600,
+    "tags": [
+      "Array",
+      "Dynamic Programming"
+    ],
+    "patterns": [
+      "dynamic-programming",
+      "circular-dp"
+    ],
+    "statement": "You are a professional robber planning to rob houses arranged in a circle. You cannot rob two adjacent houses."
+  },
+  {
+    "id": "lc-42",
+    "judge": "LeetCode",
+    "judgeSlug": "leetcode",
+    "problemId": "42",
+    "title": "42. Trapping Rain Water",
+    "titleSlug": "trapping-rain-water",
+    "url": "https://leetcode.com/problems/trapping-rain-water/",
+    "difficulty": "Hard",
+    "rating": 1900,
+    "tags": [
+      "Array",
+      "Two Pointers",
+      "Dynamic Programming",
+      "Stack",
+      "Monotonic Stack"
+    ],
+    "patterns": [
+      "two-pointers",
+      "monotonic-stack"
+    ],
+    "statement": "Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining."
+  },
+  {
+    "id": "lc-300",
+    "judge": "LeetCode",
+    "judgeSlug": "leetcode",
+    "problemId": "300",
+    "title": "300. Longest Increasing Subsequence",
+    "titleSlug": "longest-increasing-subsequence",
+    "url": "https://leetcode.com/problems/longest-increasing-subsequence/",
+    "difficulty": "Medium",
+    "rating": 1650,
+    "tags": [
+      "Array",
+      "Binary Search",
+      "Dynamic Programming"
+    ],
+    "patterns": [
+      "dynamic-programming",
+      "lis",
+      "patience-sorting"
+    ],
+    "statement": "Given an integer array nums, return the length of the longest strictly increasing subsequence using DP or O(n log n) patience sorting."
+  },
+  {
+    "id": "lc-72",
+    "judge": "LeetCode",
+    "judgeSlug": "leetcode",
+    "problemId": "72",
+    "title": "72. Edit Distance",
+    "titleSlug": "edit-distance",
+    "url": "https://leetcode.com/problems/edit-distance/",
+    "difficulty": "Medium",
+    "rating": 1700,
+    "tags": [
+      "String",
+      "Dynamic Programming"
+    ],
+    "patterns": [
+      "dynamic-programming",
+      "string-dp",
+      "levenshtein"
+    ],
+    "statement": "Given two strings word1 and word2, return the minimum number of operations (insert, delete, replace) required to convert word1 to word2."
+  },
+  {
+    "id": "lc-207",
+    "judge": "LeetCode",
+    "judgeSlug": "leetcode",
+    "problemId": "207",
+    "title": "207. Course Schedule",
+    "titleSlug": "course-schedule",
+    "url": "https://leetcode.com/problems/course-schedule/",
+    "difficulty": "Medium",
+    "rating": 1500,
+    "tags": [
+      "Depth-First Search",
+      "Breadth-First Search",
+      "Graph",
+      "Topological Sort"
+    ],
+    "patterns": [
+      "graph",
+      "topological-sort",
+      "cycle-detection",
+      "kahn-algorithm"
+    ],
+    "statement": "There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. Determine if you can finish all courses."
+  },
+  {
+    "id": "cses-1674",
+    "judge": "CSES",
+    "judgeSlug": "cses",
+    "problemId": "1674",
+    "title": "CSES 1674 - Subordinates",
+    "url": "https://cses.fi/problemset/task/1674",
+    "difficulty": "Easy",
+    "rating": 1200,
+    "tags": [
+      "Tree",
+      "DFS",
+      "Tree DP"
+    ],
+    "patterns": [
+      "tree-dp",
+      "dfs"
+    ],
+    "statement": "Given the structure of a company with n employees where employee 1 is the general director, calculate the number of subordinates for each employee."
+  },
+  {
+    "id": "cses-1688",
+    "judge": "CSES",
+    "judgeSlug": "cses",
+    "problemId": "1688",
+    "title": "CSES 1688 - Company Queries II (LCA)",
+    "url": "https://cses.fi/problemset/task/1688",
+    "difficulty": "Medium",
+    "rating": 1700,
+    "tags": [
+      "Tree",
+      "Binary Lifting",
+      "LCA"
+    ],
+    "patterns": [
+      "lowest-common-ancestor",
+      "binary-lifting",
+      "tree"
+    ],
+    "statement": "A company has n employees. Your task is to process q queries of the form: who is the lowest common boss (LCA) of employee a and employee b?"
+  },
+  {
+    "id": "cses-1648",
+    "judge": "CSES",
+    "judgeSlug": "cses",
+    "problemId": "1648",
+    "title": "CSES 1648 - Dynamic Range Sum Queries",
+    "url": "https://cses.fi/problemset/task/1648",
+    "difficulty": "Medium",
+    "rating": 1500,
+    "tags": [
+      "Range Queries",
+      "Segment Tree",
+      "Fenwick Tree"
+    ],
+    "patterns": [
+      "segment-tree",
+      "fenwick-tree",
+      "point-update-range-query"
+    ],
+    "statement": "Given an array of n integers, your task is to process q queries: update the value at position k to u, and calculate the sum of values in range [a,b]."
+  },
+  {
+    "id": "cf-1872-e",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "1872E",
+    "title": "CF 1872E - Data Structures Fan",
+    "url": "https://codeforces.com/problemset/problem/1872/E",
+    "difficulty": "Medium",
+    "rating": 1500,
+    "tags": [
+      "data structures",
+      "bit manipulation"
+    ],
+    "patterns": [
+      "segment-tree",
+      "prefix-xor",
+      "lazy-propagation"
+    ],
+    "statement": "You are given an array of integers and a binary string. Process range inversion and XOR sum queries efficiently using segment trees."
+  },
+  {
+    "id": "atcoder-dp-g",
+    "judge": "AtCoder",
+    "judgeSlug": "atcoder",
+    "problemId": "dp_g",
+    "title": "AtCoder DP Contest G - Longest Path",
+    "url": "https://atcoder.jp/contests/dp/tasks/dp_g",
+    "difficulty": "Medium",
+    "rating": 1400,
+    "tags": [
+      "DP",
+      "Graph",
+      "DAG",
+      "Topological Sort"
+    ],
+    "patterns": [
+      "dag-dp",
+      "topological-sort",
+      "graph-dp"
+    ],
+    "statement": "There is a directed graph G with N vertices and M edges without directed cycles. Find the length of the longest directed path in G."
+  },
+  {
+    "id": "cf-1033-d",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "1033D",
+    "title": "CF 1033D - Divisors",
+    "url": "https://codeforces.com/problemset/problem/1033/D",
+    "difficulty": "Hard",
+    "rating": 2100,
+    "tags": [
+      "math",
+      "number theory"
+    ],
+    "patterns": [
+      "number-theory",
+      "gcd",
+      "pollard-rho",
+      "prime-factorization"
+    ],
+    "statement": "You are given an array of composite integers each having 3 or 4 divisors. Calculate the total number of divisors of their product modulo 998244353."
+  },
+  {
+    "id": "cf-aliens",
+    "judge": "IOI / LeetCode",
+    "judgeSlug": "leetcode",
+    "problemId": "wqs",
+    "title": "Aliens / WQS Binary Search",
+    "url": "https://leetcode.com/problems/super-egg-drop/",
+    "difficulty": "Hard",
+    "rating": 2600,
+    "tags": [
+      "Binary Search",
+      "Dynamic Programming",
+      "WQS Trick"
+    ],
+    "patterns": [
+      "wqs-binary-search",
+      "aliens-trick",
+      "slope-trick",
+      "convex-hull-trick"
+    ],
+    "statement": "Optimize DP with a constraint on the number of selected elements by applying Lagrangian relaxation / WQS binary search (Aliens trick)."
+  },
+  {
+    "id": "cf-2257-F2",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2257F2",
+    "title": "2257F2 - Beaver's Jumping Track (Hard Version)",
+    "titleSlug": "2257-F2",
+    "url": "https://codeforces.com/problemset/problem/2257/F2",
+    "difficulty": "Hard",
+    "rating": 2700,
+    "tags": [
+      "data structures",
+      "dp",
+      "matrices"
+    ],
+    "patterns": [
+      "data-structures",
+      "dp",
+      "matrices"
+    ],
+    "statement": "Codeforces Div contest problem rated 2700. Topics include: data structures, dp, matrices."
+  },
+  {
+    "id": "cf-2257-F1",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2257F1",
+    "title": "2257F1 - Beaver's Jumping Track (Easy Version)",
+    "titleSlug": "2257-F1",
+    "url": "https://codeforces.com/problemset/problem/2257/F1",
+    "difficulty": "Hard",
+    "rating": 2500,
+    "tags": [
+      "data structures",
+      "dp",
+      "matrices"
+    ],
+    "patterns": [
+      "data-structures",
+      "dp",
+      "matrices"
+    ],
+    "statement": "Codeforces Div contest problem rated 2500. Topics include: data structures, dp, matrices."
+  },
+  {
+    "id": "cf-2257-E",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2257E",
+    "title": "2257E - Busy Beaver",
+    "titleSlug": "2257-E",
+    "url": "https://codeforces.com/problemset/problem/2257/E",
+    "difficulty": "Hard",
+    "rating": 2000,
+    "tags": [
+      "brute force",
+      "data structures",
+      "divide and conquer",
+      "dp",
+      "greedy",
+      "implementation",
+      "sortings"
+    ],
+    "patterns": [
+      "brute-force",
+      "data-structures",
+      "divide-and-conquer",
+      "dp",
+      "greedy",
+      "implementation",
+      "sortings"
+    ],
+    "statement": "Codeforces Div contest problem rated 2000. Topics include: brute force, data structures, divide and conquer, dp, greedy, implementation, sortings."
+  },
+  {
+    "id": "cf-2257-D",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2257D",
+    "title": "2257D - Bermuda Rectangle",
+    "titleSlug": "2257-D",
+    "url": "https://codeforces.com/problemset/problem/2257/D",
+    "difficulty": "Medium",
+    "rating": 1600,
+    "tags": [
+      "binary search",
+      "implementation",
+      "math",
+      "number theory",
+      "two pointers"
+    ],
+    "patterns": [
+      "binary-search",
+      "implementation",
+      "math",
+      "number-theory",
+      "two-pointers"
+    ],
+    "statement": "Codeforces Div contest problem rated 1600. Topics include: binary search, implementation, math, number theory, two pointers."
+  },
+  {
+    "id": "cf-2255-F",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2255F",
+    "title": "2255F - Who Will Witness the End?",
+    "titleSlug": "2255-F",
+    "url": "https://codeforces.com/problemset/problem/2255/F",
+    "difficulty": "Hard",
+    "rating": 3100,
+    "tags": [
+      "fft",
+      "math"
+    ],
+    "patterns": [
+      "fft",
+      "math"
+    ],
+    "statement": "Codeforces Div contest problem rated 3100. Topics include: fft, math."
+  },
+  {
+    "id": "cf-2255-E2",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2255E2",
+    "title": "2255E2 - What Will Remain at the End? (Hard Version)",
+    "titleSlug": "2255-E2",
+    "url": "https://codeforces.com/problemset/problem/2255/E2",
+    "difficulty": "Hard",
+    "rating": 3400,
+    "tags": [
+      "data structures"
+    ],
+    "patterns": [
+      "data-structures"
+    ],
+    "statement": "Codeforces Div contest problem rated 3400. Topics include: data structures."
+  },
+  {
+    "id": "cf-2255-E1",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2255E1",
+    "title": "2255E1 - What Will Remain at the End? (Easy Version)",
+    "titleSlug": "2255-E1",
+    "url": "https://codeforces.com/problemset/problem/2255/E1",
+    "difficulty": "Hard",
+    "rating": 2900,
+    "tags": [
+      "brute force",
+      "data structures"
+    ],
+    "patterns": [
+      "brute-force",
+      "data-structures"
+    ],
+    "statement": "Codeforces Div contest problem rated 2900. Topics include: brute force, data structures."
+  },
+  {
+    "id": "cf-2255-D",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2255D",
+    "title": "2255D - How Long Until Nothing Remains?",
+    "titleSlug": "2255-D",
+    "url": "https://codeforces.com/problemset/problem/2255/D",
+    "difficulty": "Hard",
+    "rating": 2300,
+    "tags": [
+      "binary search",
+      "bitmasks",
+      "data structures",
+      "greedy",
+      "math",
+      "sortings"
+    ],
+    "patterns": [
+      "binary-search",
+      "bitmasks",
+      "data-structures",
+      "greedy",
+      "math",
+      "sortings"
+    ],
+    "statement": "Codeforces Div contest problem rated 2300. Topics include: binary search, bitmasks, data structures, greedy, math, sortings."
+  },
+  {
+    "id": "cf-2255-C",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2255C",
+    "title": "2255C - Even If the World Turns",
+    "titleSlug": "2255-C",
+    "url": "https://codeforces.com/problemset/problem/2255/C",
+    "difficulty": "Hard",
+    "rating": 2100,
+    "tags": [
+      "communication",
+      "constructive algorithms",
+      "expression parsing",
+      "greedy",
+      "interactive",
+      "math",
+      "number theory"
+    ],
+    "patterns": [
+      "communication",
+      "constructive-algorithms",
+      "expression-parsing",
+      "greedy",
+      "interactive",
+      "math",
+      "number-theory"
+    ],
+    "statement": "Codeforces Div contest problem rated 2100. Topics include: communication, constructive algorithms, expression parsing, greedy, interactive, math, number theory."
+  },
+  {
+    "id": "cf-2255-B",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2255B",
+    "title": "2255B - A Ribbon for Tomorrow",
+    "titleSlug": "2255-B",
+    "url": "https://codeforces.com/problemset/problem/2255/B",
+    "difficulty": "Medium",
+    "rating": 1600,
+    "tags": [
+      "combinatorics",
+      "math"
+    ],
+    "patterns": [
+      "combinatorics",
+      "math"
+    ],
+    "statement": "Codeforces Div contest problem rated 1600. Topics include: combinatorics, math."
+  },
+  {
+    "id": "cf-2254-G",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2254G",
+    "title": "2254G - Nightcrawler",
+    "titleSlug": "2254-G",
+    "url": "https://codeforces.com/problemset/problem/2254/G",
+    "difficulty": "Hard",
+    "rating": 2200,
+    "tags": [
+      "data structures",
+      "dfs and similar",
+      "dp",
+      "greedy",
+      "sortings",
+      "trees"
+    ],
+    "patterns": [
+      "data-structures",
+      "dfs-and-similar",
+      "dp",
+      "greedy",
+      "sortings",
+      "trees"
+    ],
+    "statement": "Codeforces Div contest problem rated 2200. Topics include: data structures, dfs and similar, dp, greedy, sortings, trees."
+  },
+  {
+    "id": "cf-2254-F",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2254F",
+    "title": "2254F - Whiplash",
+    "titleSlug": "2254-F",
+    "url": "https://codeforces.com/problemset/problem/2254/F",
+    "difficulty": "Medium",
+    "rating": 1900,
+    "tags": [
+      "bitmasks",
+      "constructive algorithms",
+      "math",
+      "sortings"
+    ],
+    "patterns": [
+      "bitmasks",
+      "constructive-algorithms",
+      "math",
+      "sortings"
+    ],
+    "statement": "Codeforces Div contest problem rated 1900. Topics include: bitmasks, constructive algorithms, math, sortings."
+  },
+  {
+    "id": "cf-2254-E",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2254E",
+    "title": "2254E - Chronostasis",
+    "titleSlug": "2254-E",
+    "url": "https://codeforces.com/problemset/problem/2254/E",
+    "difficulty": "Medium",
+    "rating": 1500,
+    "tags": [
+      "binary search",
+      "data structures",
+      "greedy"
+    ],
+    "patterns": [
+      "binary-search",
+      "data-structures",
+      "greedy"
+    ],
+    "statement": "Codeforces Div contest problem rated 1500. Topics include: binary search, data structures, greedy."
+  },
+  {
+    "id": "cf-2254-D",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2254D",
+    "title": "2254D - Silhouette",
+    "titleSlug": "2254-D",
+    "url": "https://codeforces.com/problemset/problem/2254/D",
+    "difficulty": "Easy",
+    "rating": 1300,
+    "tags": [
+      "constructive algorithms",
+      "math",
+      "sortings"
+    ],
+    "patterns": [
+      "constructive-algorithms",
+      "math",
+      "sortings"
+    ],
+    "statement": "Codeforces Div contest problem rated 1300. Topics include: constructive algorithms, math, sortings."
+  },
+  {
+    "id": "cf-2253-F",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2253F",
+    "title": "2253F - 4-beauty",
+    "titleSlug": "2253-F",
+    "url": "https://codeforces.com/problemset/problem/2253/F",
+    "difficulty": "Hard",
+    "rating": 2600,
+    "tags": [
+      "bitmasks",
+      "dp",
+      "graphs",
+      "math",
+      "number theory"
+    ],
+    "patterns": [
+      "bitmasks",
+      "dp",
+      "graphs",
+      "math",
+      "number-theory"
+    ],
+    "statement": "Codeforces Div contest problem rated 2600. Topics include: bitmasks, dp, graphs, math, number theory."
+  },
+  {
+    "id": "cf-2253-E",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2253E",
+    "title": "2253E - Diameter Intersections",
+    "titleSlug": "2253-E",
+    "url": "https://codeforces.com/problemset/problem/2253/E",
+    "difficulty": "Hard",
+    "rating": 2100,
+    "tags": [
+      "brute force",
+      "dfs and similar",
+      "fft",
+      "graphs",
+      "implementation",
+      "trees"
+    ],
+    "patterns": [
+      "brute-force",
+      "dfs-and-similar",
+      "fft",
+      "graphs",
+      "implementation",
+      "trees"
+    ],
+    "statement": "Codeforces Div contest problem rated 2100. Topics include: brute force, dfs and similar, fft, graphs, implementation, trees."
+  },
+  {
+    "id": "cf-2253-D",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2253D",
+    "title": "2253D - Hypercarp and Interdimensional Jumps",
+    "titleSlug": "2253-D",
+    "url": "https://codeforces.com/problemset/problem/2253/D",
+    "difficulty": "Medium",
+    "rating": 1800,
+    "tags": [
+      "binary search",
+      "brute force",
+      "geometry",
+      "greedy",
+      "implementation",
+      "math"
+    ],
+    "patterns": [
+      "binary-search",
+      "brute-force",
+      "geometry",
+      "greedy",
+      "implementation",
+      "math"
+    ],
+    "statement": "Codeforces Div contest problem rated 1800. Topics include: binary search, brute force, geometry, greedy, implementation, math."
+  },
+  {
+    "id": "cf-2253-C",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2253C",
+    "title": "2253C - Sum of Distinct Values in a Matrix",
+    "titleSlug": "2253-C",
+    "url": "https://codeforces.com/problemset/problem/2253/C",
+    "difficulty": "Medium",
+    "rating": 1500,
+    "tags": [
+      "greedy",
+      "sortings",
+      "two pointers"
+    ],
+    "patterns": [
+      "greedy",
+      "sortings",
+      "two-pointers"
+    ],
+    "statement": "Codeforces Div contest problem rated 1500. Topics include: greedy, sortings, two pointers."
+  },
+  {
+    "id": "cf-2252-F",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2252F",
+    "title": "2252F - Spectral Components",
+    "titleSlug": "2252-F",
+    "url": "https://codeforces.com/problemset/problem/2252/F",
+    "difficulty": "Hard",
+    "rating": 2600,
+    "tags": [
+      "dfs and similar",
+      "dp",
+      "greedy",
+      "sortings",
+      "trees"
+    ],
+    "patterns": [
+      "dfs-and-similar",
+      "dp",
+      "greedy",
+      "sortings",
+      "trees"
+    ],
+    "statement": "Codeforces Div contest problem rated 2600. Topics include: dfs and similar, dp, greedy, sortings, trees."
+  },
+  {
+    "id": "cf-2252-E",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2252E",
+    "title": "2252E - Generational Triplets",
+    "titleSlug": "2252-E",
+    "url": "https://codeforces.com/problemset/problem/2252/E",
+    "difficulty": "Hard",
+    "rating": 2100,
+    "tags": [
+      "bitmasks",
+      "combinatorics",
+      "dp",
+      "math"
+    ],
+    "patterns": [
+      "bitmasks",
+      "combinatorics",
+      "dp",
+      "math"
+    ],
+    "statement": "Codeforces Div contest problem rated 2100. Topics include: bitmasks, combinatorics, dp, math."
+  },
+  {
+    "id": "cf-2252-D",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2252D",
+    "title": "2252D - Array Replacement",
+    "titleSlug": "2252-D",
+    "url": "https://codeforces.com/problemset/problem/2252/D",
+    "difficulty": "Medium",
+    "rating": 1700,
+    "tags": [
+      "greedy",
+      "sortings"
+    ],
+    "patterns": [
+      "greedy",
+      "sortings"
+    ],
+    "statement": "Codeforces Div contest problem rated 1700. Topics include: greedy, sortings."
+  },
+  {
+    "id": "cf-2252-C",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2252C",
+    "title": "2252C - Risky Tower",
+    "titleSlug": "2252-C",
+    "url": "https://codeforces.com/problemset/problem/2252/C",
+    "difficulty": "Easy",
+    "rating": 1400,
+    "tags": [
+      "binary search",
+      "brute force",
+      "data structures",
+      "greedy",
+      "sortings"
+    ],
+    "patterns": [
+      "binary-search",
+      "brute-force",
+      "data-structures",
+      "greedy",
+      "sortings"
+    ],
+    "statement": "Codeforces Div contest problem rated 1400. Topics include: binary search, brute force, data structures, greedy, sortings."
+  },
+  {
+    "id": "cf-2249-F",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2249F",
+    "title": "2249F - Even Simple Path",
+    "titleSlug": "2249-F",
+    "url": "https://codeforces.com/problemset/problem/2249/F",
+    "difficulty": "Hard",
+    "rating": 3200,
+    "tags": [
+      "constructive algorithms",
+      "graphs",
+      "shortest paths"
+    ],
+    "patterns": [
+      "constructive-algorithms",
+      "graphs",
+      "shortest-paths"
+    ],
+    "statement": "Codeforces Div contest problem rated 3200. Topics include: constructive algorithms, graphs, shortest paths."
+  },
+  {
+    "id": "cf-2249-E2",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2249E2",
+    "title": "2249E2 - String (Hard Version)",
+    "titleSlug": "2249-E2",
+    "url": "https://codeforces.com/problemset/problem/2249/E2",
+    "difficulty": "Hard",
+    "rating": 3000,
+    "tags": [
+      "divide and conquer",
+      "implementation",
+      "strings"
+    ],
+    "patterns": [
+      "divide-and-conquer",
+      "implementation",
+      "strings"
+    ],
+    "statement": "Codeforces Div contest problem rated 3000. Topics include: divide and conquer, implementation, strings."
+  },
+  {
+    "id": "cf-2249-E1",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2249E1",
+    "title": "2249E1 - String (Easy Version)",
+    "titleSlug": "2249-E1",
+    "url": "https://codeforces.com/problemset/problem/2249/E1",
+    "difficulty": "Hard",
+    "rating": 2800,
+    "tags": [
+      "divide and conquer",
+      "implementation",
+      "strings"
+    ],
+    "patterns": [
+      "divide-and-conquer",
+      "implementation",
+      "strings"
+    ],
+    "statement": "Codeforces Div contest problem rated 2800. Topics include: divide and conquer, implementation, strings."
+  },
+  {
+    "id": "cf-2249-D",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2249D",
+    "title": "2249D - Xor Permutation Matrix",
+    "titleSlug": "2249-D",
+    "url": "https://codeforces.com/problemset/problem/2249/D",
+    "difficulty": "Hard",
+    "rating": 2300,
+    "tags": [
+      "bitmasks",
+      "constructive algorithms",
+      "math"
+    ],
+    "patterns": [
+      "bitmasks",
+      "constructive-algorithms",
+      "math"
+    ],
+    "statement": "Codeforces Div contest problem rated 2300. Topics include: bitmasks, constructive algorithms, math."
+  },
+  {
+    "id": "cf-2249-C",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2249C",
+    "title": "2249C - Double-Rift Dial",
+    "titleSlug": "2249-C",
+    "url": "https://codeforces.com/problemset/problem/2249/C",
+    "difficulty": "Hard",
+    "rating": 2000,
+    "tags": [
+      "data structures",
+      "dfs and similar",
+      "dsu",
+      "implementation",
+      "two pointers"
+    ],
+    "patterns": [
+      "data-structures",
+      "dfs-and-similar",
+      "dsu",
+      "implementation",
+      "two-pointers"
+    ],
+    "statement": "Codeforces Div contest problem rated 2000. Topics include: data structures, dfs and similar, dsu, implementation, two pointers."
+  },
+  {
+    "id": "cf-2249-B",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2249B",
+    "title": "2249B - Permutation Cuts",
+    "titleSlug": "2249-B",
+    "url": "https://codeforces.com/problemset/problem/2249/B",
+    "difficulty": "Medium",
+    "rating": 1700,
+    "tags": [
+      "combinatorics",
+      "implementation",
+      "math"
+    ],
+    "patterns": [
+      "combinatorics",
+      "implementation",
+      "math"
+    ],
+    "statement": "Codeforces Div contest problem rated 1700. Topics include: combinatorics, implementation, math."
+  },
+  {
+    "id": "cf-2249-A",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2249A",
+    "title": "2249A - Rank Subsequence",
+    "titleSlug": "2249-A",
+    "url": "https://codeforces.com/problemset/problem/2249/A",
+    "difficulty": "Easy",
+    "rating": 1300,
+    "tags": [
+      "brute force",
+      "greedy",
+      "implementation"
+    ],
+    "patterns": [
+      "brute-force",
+      "greedy",
+      "implementation"
+    ],
+    "statement": "Codeforces Div contest problem rated 1300. Topics include: brute force, greedy, implementation."
+  },
+  {
+    "id": "cf-2248-G",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2248G",
+    "title": "2248G - No Balance Left",
+    "titleSlug": "2248-G",
+    "url": "https://codeforces.com/problemset/problem/2248/G",
+    "difficulty": "Hard",
+    "rating": 3000,
+    "tags": [
+      "bitmasks",
+      "dp",
+      "math",
+      "number theory"
+    ],
+    "patterns": [
+      "bitmasks",
+      "dp",
+      "math",
+      "number-theory"
+    ],
+    "statement": "Codeforces Div contest problem rated 3000. Topics include: bitmasks, dp, math, number theory."
+  },
+  {
+    "id": "cf-2248-F",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2248F",
+    "title": "2248F - Matrix Elimination",
+    "titleSlug": "2248-F",
+    "url": "https://codeforces.com/problemset/problem/2248/F",
+    "difficulty": "Hard",
+    "rating": 2500,
+    "tags": [
+      "binary search",
+      "greedy",
+      "math"
+    ],
+    "patterns": [
+      "binary-search",
+      "greedy",
+      "math"
+    ],
+    "statement": "Codeforces Div contest problem rated 2500. Topics include: binary search, greedy, math."
+  },
+  {
+    "id": "cf-2248-E",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2248E",
+    "title": "2248E - Excuse for Breaks",
+    "titleSlug": "2248-E",
+    "url": "https://codeforces.com/problemset/problem/2248/E",
+    "difficulty": "Medium",
+    "rating": 1900,
+    "tags": [
+      "binary search",
+      "brute force",
+      "greedy",
+      "math",
+      "two pointers"
+    ],
+    "patterns": [
+      "binary-search",
+      "brute-force",
+      "greedy",
+      "math",
+      "two-pointers"
+    ],
+    "statement": "Codeforces Div contest problem rated 1900. Topics include: binary search, brute force, greedy, math, two pointers."
+  },
+  {
+    "id": "cf-2248-D",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2248D",
+    "title": "2248D - Good Pair Queries",
+    "titleSlug": "2248-D",
+    "url": "https://codeforces.com/problemset/problem/2248/D",
+    "difficulty": "Easy",
+    "rating": 1400,
+    "tags": [
+      "constructive algorithms",
+      "greedy",
+      "math"
+    ],
+    "patterns": [
+      "constructive-algorithms",
+      "greedy",
+      "math"
+    ],
+    "statement": "Codeforces Div contest problem rated 1400. Topics include: constructive algorithms, greedy, math."
+  },
+  {
+    "id": "cf-2248-C",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2248C",
+    "title": "2248C - Maximize the Score",
+    "titleSlug": "2248-C",
+    "url": "https://codeforces.com/problemset/problem/2248/C",
+    "difficulty": "Easy",
+    "rating": 1300,
+    "tags": [
+      "dp",
+      "greedy"
+    ],
+    "patterns": [
+      "dp",
+      "greedy"
+    ],
+    "statement": "Codeforces Div contest problem rated 1300. Topics include: dp, greedy."
+  },
+  {
+    "id": "cf-2247-F",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2247F",
+    "title": "2247F - Paths on a Grid",
+    "titleSlug": "2247-F",
+    "url": "https://codeforces.com/problemset/problem/2247/F",
+    "difficulty": "Hard",
+    "rating": 2900,
+    "tags": [
+      "data structures",
+      "dp",
+      "hashing"
+    ],
+    "patterns": [
+      "data-structures",
+      "dp",
+      "hashing"
+    ],
+    "statement": "Codeforces Div contest problem rated 2900. Topics include: data structures, dp, hashing."
+  },
+  {
+    "id": "cf-2247-E",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2247E",
+    "title": "2247E - Build a Tree",
+    "titleSlug": "2247-E",
+    "url": "https://codeforces.com/problemset/problem/2247/E",
+    "difficulty": "Hard",
+    "rating": 2300,
+    "tags": [
+      "constructive algorithms",
+      "trees",
+      "two pointers"
+    ],
+    "patterns": [
+      "constructive-algorithms",
+      "trees",
+      "two-pointers"
+    ],
+    "statement": "Codeforces Div contest problem rated 2300. Topics include: constructive algorithms, trees, two pointers."
+  },
+  {
+    "id": "cf-2247-D2",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2247D2",
+    "title": "2247D2 - XOR Sorting (Hard Version)",
+    "titleSlug": "2247-D2",
+    "url": "https://codeforces.com/problemset/problem/2247/D2",
+    "difficulty": "Hard",
+    "rating": 2000,
+    "tags": [
+      "bitmasks",
+      "data structures",
+      "greedy"
+    ],
+    "patterns": [
+      "bitmasks",
+      "data-structures",
+      "greedy"
+    ],
+    "statement": "Codeforces Div contest problem rated 2000. Topics include: bitmasks, data structures, greedy."
+  },
+  {
+    "id": "cf-2247-D1",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2247D1",
+    "title": "2247D1 - XOR Sorting (Easy Version)",
+    "titleSlug": "2247-D1",
+    "url": "https://codeforces.com/problemset/problem/2247/D1",
+    "difficulty": "Medium",
+    "rating": 1500,
+    "tags": [
+      "bitmasks",
+      "greedy"
+    ],
+    "patterns": [
+      "bitmasks",
+      "greedy"
+    ],
+    "statement": "Codeforces Div contest problem rated 1500. Topics include: bitmasks, greedy."
+  },
+  {
+    "id": "cf-2246-F",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2246F",
+    "title": "2246F - Whoname and Unsorted Array",
+    "titleSlug": "2246-F",
+    "url": "https://codeforces.com/problemset/problem/2246/F",
+    "difficulty": "Hard",
+    "rating": 2900,
+    "tags": [
+      "constructive algorithms"
+    ],
+    "patterns": [
+      "constructive-algorithms"
+    ],
+    "statement": "Codeforces Div contest problem rated 2900. Topics include: constructive algorithms."
+  },
+  {
+    "id": "cf-2246-E",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2246E",
+    "title": "2246E - lce4113 and Security Game",
+    "titleSlug": "2246-E",
+    "url": "https://codeforces.com/problemset/problem/2246/E",
+    "difficulty": "Hard",
+    "rating": 2600,
+    "tags": [
+      "bitmasks",
+      "interactive",
+      "math",
+      "probabilities"
+    ],
+    "patterns": [
+      "bitmasks",
+      "interactive",
+      "math",
+      "probabilities"
+    ],
+    "statement": "Codeforces Div contest problem rated 2600. Topics include: bitmasks, interactive, math, probabilities."
+  },
+  {
+    "id": "cf-2246-D",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2246D",
+    "title": "2246D - diss_quack and Array Game",
+    "titleSlug": "2246-D",
+    "url": "https://codeforces.com/problemset/problem/2246/D",
+    "difficulty": "Medium",
+    "rating": 1900,
+    "tags": [
+      "bitmasks",
+      "brute force",
+      "games",
+      "greedy"
+    ],
+    "patterns": [
+      "bitmasks",
+      "brute-force",
+      "games",
+      "greedy"
+    ],
+    "statement": "Codeforces Div contest problem rated 1900. Topics include: bitmasks, brute force, games, greedy."
+  },
+  {
+    "id": "cf-2246-C",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2246C",
+    "title": "2246C - 0mar and Alternating Sums",
+    "titleSlug": "2246-C",
+    "url": "https://codeforces.com/problemset/problem/2246/C",
+    "difficulty": "Easy",
+    "rating": 1400,
+    "tags": [
+      "combinatorics",
+      "dp",
+      "math"
+    ],
+    "patterns": [
+      "combinatorics",
+      "dp",
+      "math"
+    ],
+    "statement": "Codeforces Div contest problem rated 1400. Topics include: combinatorics, dp, math."
+  },
+  {
+    "id": "cf-2245-H",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2245H",
+    "title": "2245H - Connect Connect See",
+    "titleSlug": "2245-H",
+    "url": "https://codeforces.com/problemset/problem/2245/H",
+    "difficulty": "Hard",
+    "rating": 3500,
+    "tags": [
+      "brute force",
+      "data structures"
+    ],
+    "patterns": [
+      "brute-force",
+      "data-structures"
+    ],
+    "statement": "Codeforces Div contest problem rated 3500. Topics include: brute force, data structures."
+  },
+  {
+    "id": "cf-2245-G",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2245G",
+    "title": "2245G - NPC Challenge",
+    "titleSlug": "2245-G",
+    "url": "https://codeforces.com/problemset/problem/2245/G",
+    "difficulty": "Hard",
+    "rating": 3000,
+    "tags": [
+      "divide and conquer",
+      "interactive"
+    ],
+    "patterns": [
+      "divide-and-conquer",
+      "interactive"
+    ],
+    "statement": "Codeforces Div contest problem rated 3000. Topics include: divide and conquer, interactive."
+  },
+  {
+    "id": "cf-2245-F",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2245F",
+    "title": "2245F - Familiar?",
+    "titleSlug": "2245-F",
+    "url": "https://codeforces.com/problemset/problem/2245/F",
+    "difficulty": "Hard",
+    "rating": 2800,
+    "tags": [
+      "brute force",
+      "combinatorics",
+      "dp"
+    ],
+    "patterns": [
+      "brute-force",
+      "combinatorics",
+      "dp"
+    ],
+    "statement": "Codeforces Div contest problem rated 2800. Topics include: brute force, combinatorics, dp."
+  },
+  {
+    "id": "cf-2245-E",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2245E",
+    "title": "2245E - Tom and Jerry",
+    "titleSlug": "2245-E",
+    "url": "https://codeforces.com/problemset/problem/2245/E",
+    "difficulty": "Hard",
+    "rating": 2300,
+    "tags": [
+      "dfs and similar",
+      "dsu",
+      "games",
+      "trees"
+    ],
+    "patterns": [
+      "dfs-and-similar",
+      "dsu",
+      "games",
+      "trees"
+    ],
+    "statement": "Codeforces Div contest problem rated 2300. Topics include: dfs and similar, dsu, games, trees."
+  },
+  {
+    "id": "cf-2245-D2",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2245D2",
+    "title": "2245D2 - Construct an Array (Hard Version)",
+    "titleSlug": "2245-D2",
+    "url": "https://codeforces.com/problemset/problem/2245/D2",
+    "difficulty": "Hard",
+    "rating": 2000,
+    "tags": [
+      "2-sat",
+      "constructive algorithms",
+      "dfs and similar",
+      "graphs",
+      "implementation"
+    ],
+    "patterns": [
+      "2-sat",
+      "constructive-algorithms",
+      "dfs-and-similar",
+      "graphs",
+      "implementation"
+    ],
+    "statement": "Codeforces Div contest problem rated 2000. Topics include: 2-sat, constructive algorithms, dfs and similar, graphs, implementation."
+  },
+  {
+    "id": "cf-2245-D1",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2245D1",
+    "title": "2245D1 - Construct an Array (Easy Version)",
+    "titleSlug": "2245-D1",
+    "url": "https://codeforces.com/problemset/problem/2245/D1",
+    "difficulty": "Medium",
+    "rating": 1700,
+    "tags": [
+      "dfs and similar",
+      "implementation",
+      "sortings"
+    ],
+    "patterns": [
+      "dfs-and-similar",
+      "implementation",
+      "sortings"
+    ],
+    "statement": "Codeforces Div contest problem rated 1700. Topics include: dfs and similar, implementation, sortings."
+  },
+  {
+    "id": "cf-2245-C",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2245C",
+    "title": "2245C - MEXOR",
+    "titleSlug": "2245-C",
+    "url": "https://codeforces.com/problemset/problem/2245/C",
+    "difficulty": "Easy",
+    "rating": 1400,
+    "tags": [
+      "bitmasks",
+      "constructive algorithms",
+      "math"
+    ],
+    "patterns": [
+      "bitmasks",
+      "constructive-algorithms",
+      "math"
+    ],
+    "statement": "Codeforces Div contest problem rated 1400. Topics include: bitmasks, constructive algorithms, math."
+  },
+  {
+    "id": "cf-2244-G",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2244G",
+    "title": "2244G - Yura and Deadlines",
+    "titleSlug": "2244-G",
+    "url": "https://codeforces.com/problemset/problem/2244/G",
+    "difficulty": "Medium",
+    "rating": 1900,
+    "tags": [
+      "data structures",
+      "dp"
+    ],
+    "patterns": [
+      "data-structures",
+      "dp"
+    ],
+    "statement": "Codeforces Div contest problem rated 1900. Topics include: data structures, dp."
+  },
+  {
+    "id": "cf-2244-F",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2244F",
+    "title": "2244F - Anya Loves Trees!",
+    "titleSlug": "2244-F",
+    "url": "https://codeforces.com/problemset/problem/2244/F",
+    "difficulty": "Medium",
+    "rating": 1700,
+    "tags": [
+      "dfs and similar",
+      "dp",
+      "greedy",
+      "trees"
+    ],
+    "patterns": [
+      "dfs-and-similar",
+      "dp",
+      "greedy",
+      "trees"
+    ],
+    "statement": "Codeforces Div contest problem rated 1700. Topics include: dfs and similar, dp, greedy, trees."
+  },
+  {
+    "id": "cf-2244-E",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2244E",
+    "title": "2244E - Masha and the Garland",
+    "titleSlug": "2244-E",
+    "url": "https://codeforces.com/problemset/problem/2244/E",
+    "difficulty": "Easy",
+    "rating": 1400,
+    "tags": [
+      "data structures",
+      "dp",
+      "greedy",
+      "implementation",
+      "math",
+      "number theory",
+      "strings"
+    ],
+    "patterns": [
+      "data-structures",
+      "dp",
+      "greedy",
+      "implementation",
+      "math",
+      "number-theory",
+      "strings"
+    ],
+    "statement": "Codeforces Div contest problem rated 1400. Topics include: data structures, dp, greedy, implementation, math, number theory, strings."
+  },
+  {
+    "id": "cf-2242-F",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2242F",
+    "title": "2242F - Summer Vacation",
+    "titleSlug": "2242-F",
+    "url": "https://codeforces.com/problemset/problem/2242/F",
+    "difficulty": "Hard",
+    "rating": 2700,
+    "tags": [
+      "data structures",
+      "dp",
+      "probabilities",
+      "trees"
+    ],
+    "patterns": [
+      "data-structures",
+      "dp",
+      "probabilities",
+      "trees"
+    ],
+    "statement": "Codeforces Div contest problem rated 2700. Topics include: data structures, dp, probabilities, trees."
+  },
+  {
+    "id": "cf-2242-E",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2242E",
+    "title": "2242E - Product of Closures",
+    "titleSlug": "2242-E",
+    "url": "https://codeforces.com/problemset/problem/2242/E",
+    "difficulty": "Hard",
+    "rating": 2200,
+    "tags": [
+      "bitmasks",
+      "brute force",
+      "constructive algorithms",
+      "greedy",
+      "implementation",
+      "math",
+      "number theory"
+    ],
+    "patterns": [
+      "bitmasks",
+      "brute-force",
+      "constructive-algorithms",
+      "greedy",
+      "implementation",
+      "math",
+      "number-theory"
+    ],
+    "statement": "Codeforces Div contest problem rated 2200. Topics include: bitmasks, brute force, constructive algorithms, greedy, implementation, math, number theory."
+  },
+  {
+    "id": "cf-2242-D",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2242D",
+    "title": "2242D - Two Digit Strings",
+    "titleSlug": "2242-D",
+    "url": "https://codeforces.com/problemset/problem/2242/D",
+    "difficulty": "Medium",
+    "rating": 1600,
+    "tags": [
+      "dp",
+      "strings"
+    ],
+    "patterns": [
+      "dp",
+      "strings"
+    ],
+    "statement": "Codeforces Div contest problem rated 1600. Topics include: dp, strings."
+  },
+  {
+    "id": "cf-2242-C",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2242C",
+    "title": "2242C - Unstable Elements",
+    "titleSlug": "2242-C",
+    "url": "https://codeforces.com/problemset/problem/2242/C",
+    "difficulty": "Easy",
+    "rating": 1300,
+    "tags": [
+      "brute force",
+      "data structures",
+      "implementation",
+      "sortings",
+      "two pointers"
+    ],
+    "patterns": [
+      "brute-force",
+      "data-structures",
+      "implementation",
+      "sortings",
+      "two-pointers"
+    ],
+    "statement": "Codeforces Div contest problem rated 1300. Topics include: brute force, data structures, implementation, sortings, two pointers."
+  },
+  {
+    "id": "cf-2241-G",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2241G",
+    "title": "2241G - Summmon",
+    "titleSlug": "2241-G",
+    "url": "https://codeforces.com/problemset/problem/2241/G",
+    "difficulty": "Hard",
+    "rating": 2400,
+    "tags": [
+      "binary search",
+      "data structures",
+      "greedy",
+      "implementation",
+      "math",
+      "number theory"
+    ],
+    "patterns": [
+      "binary-search",
+      "data-structures",
+      "greedy",
+      "implementation",
+      "math",
+      "number-theory"
+    ],
+    "statement": "Codeforces Div contest problem rated 2400. Topics include: binary search, data structures, greedy, implementation, math, number theory."
+  },
+  {
+    "id": "cf-2241-F",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2241F",
+    "title": "2241F - A Bit Odd",
+    "titleSlug": "2241-F",
+    "url": "https://codeforces.com/problemset/problem/2241/F",
+    "difficulty": "Medium",
+    "rating": 1700,
+    "tags": [
+      "data structures",
+      "games",
+      "greedy",
+      "math"
+    ],
+    "patterns": [
+      "data-structures",
+      "games",
+      "greedy",
+      "math"
+    ],
+    "statement": "Codeforces Div contest problem rated 1700. Topics include: data structures, games, greedy, math."
+  },
+  {
+    "id": "cf-2241-E",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2241E",
+    "title": "2241E - Fair and Square",
+    "titleSlug": "2241-E",
+    "url": "https://codeforces.com/problemset/problem/2241/E",
+    "difficulty": "Medium",
+    "rating": 1600,
+    "tags": [
+      "combinatorics",
+      "dp",
+      "graphs",
+      "math",
+      "number theory",
+      "trees"
+    ],
+    "patterns": [
+      "combinatorics",
+      "dp",
+      "graphs",
+      "math",
+      "number-theory",
+      "trees"
+    ],
+    "statement": "Codeforces Div contest problem rated 1600. Topics include: combinatorics, dp, graphs, math, number theory, trees."
+  },
+  {
+    "id": "cf-2239-F",
+    "judge": "Codeforces",
+    "judgeSlug": "codeforces",
+    "problemId": "2239F",
+    "title": "2239F - Colorful Works",
+    "titleSlug": "2239-F",
+    "url": "https://codeforces.com/problemset/problem/2239/F",
+    "difficulty": "Hard",
+    "rating": 3500,
+    "tags": [
+      "dp",
+      "fft",
+      "games",
+      "implementation"
+    ],
+    "patterns": [
+      "dp",
+      "fft",
+      "games",
+      "implementation"
+    ],
+    "statement": "Codeforces Div contest problem rated 3500. Topics include: dp, fft, games, implementation."
+  }
+]

@@ -1,165 +1,200 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" data-theme="dark">
   <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Findex — Search Engine</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>findex — search DSA problems by meaning & technique</title>
+    <meta name="description" content="Search competitive programming & DSA problems by keyword, meaning, or deep technique." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
-    <div class="container">
-      <header class="header">
-        <div class="logo">
-          <span class="logo-icon">🔍</span>
-          <h1>Findex</h1>
+    <div class="terminal-container">
+      <!-- Header -->
+      <header class="term-header">
+        <div class="term-brand">
+          <div class="terminal-dots">
+            <span class="dot dot-red"></span>
+            <span class="dot dot-yellow"></span>
+            <span class="dot dot-green"></span>
+          </div>
+          <h1 class="logo-title">
+            <svg class="brand-svg" viewBox="0 0 100 100" aria-hidden="true">
+              <polyline points="20,20 50,50 20,80" fill="none" stroke="currentColor" stroke-width="12" stroke-linejoin="miter"></polyline>
+              <rect x="60" y="32" width="16" height="36" fill="var(--accent)"></rect>
+            </svg>
+            findex
+            <span class="term-ver">v1.2</span>
+          </h1>
         </div>
-        <p class="tagline">Smart Information Retrieval & Programming Question Search</p>
+
+        <nav class="term-nav">
+          <button type="button" id="theme-toggle" class="btn-term-sm">
+            <span id="theme-icon">☼</span> <span id="theme-text">light mode</span>
+          </button>
+          <button type="button" id="scrape-btn" class="btn-term-sm btn-accent" title="Fetch live problems from LeetCode and Codeforces">
+            ⟳ sync / scrape
+          </button>
+          <button type="button" id="help-btn" class="btn-term-sm" title="Show manual">
+            :help
+          </button>
+        </nav>
       </header>
 
-      <div class="search-section">
-        <form id="search-form" class="search-box">
-          <input
-            type="text"
-            name="question"
-            id="question"
-            placeholder="Search problems, topics (e.g. Two Sum, Dynamic Programming, Tree)..."
-            autocomplete="off"
-            required
-          />
-          <button type="submit" id="search-btn">
-            <span>Search</span>
-          </button>
-        </form>
+      <!-- Tagline & Stats Banner -->
+      <div class="term-tagline">
+        <span class="tagline-text">
+          <span id="total-count"><%= totalProblems %></span> competitive programming problems · LeetCode, Codeforces, CSES, AtCoder · <code>:help</code> for manual
+        </span>
+      </div>
 
-        <div class="quick-tags">
-          <span class="tags-label">Popular:</span>
-          <button class="tag-chip" data-query="Two Sum">Two Sum</button>
-          <button class="tag-chip" data-query="Linked List">Linked List</button>
-          <button class="tag-chip" data-query="Binary Tree">Binary Tree</button>
-          <button class="tag-chip" data-query="Dynamic Programming">Dynamic Programming</button>
-          <button class="tag-chip" data-query="Graph">Graph</button>
+      <!-- Search Command Line Interface -->
+      <form id="search-form" class="search-form" autocomplete="off">
+        <div class="search-bar-wrap">
+          <span class="search-prompt">$ findex</span>
+          <input
+            id="search-input"
+            type="search"
+            placeholder="thief robbing houses / aliens trick / course cycle / knapsack"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+
+        <div class="search-controls">
+          <select id="mode-select" class="select-term" title="Ranking Algorithm Mode">
+            <option value="keyword">keyword · bm25</option>
+            <option value="meaning">meaning · semantic</option>
+            <option value="both">both · hybrid</option>
+          </select>
+
+          <select id="judge-select" class="select-term" title="Filter by Online Judge">
+            <option value="all">all judges</option>
+            <option value="leetcode">LeetCode</option>
+            <option value="codeforces">Codeforces</option>
+            <option value="cses">CSES</option>
+            <option value="atcoder">AtCoder</option>
+          </select>
+
+          <button type="submit" id="submit-btn" class="btn-submit">
+            search ↵
+          </button>
+        </div>
+      </form>
+
+      <!-- Terminal Shell Prompt & Library Bar -->
+      <div class="shell-bar">
+        <div class="shell-path">
+          <span class="shell-host">findex:</span><span id="shell-cwd" class="shell-dir">~</span><span class="shell-cursor">$</span>
+        </div>
+        <div class="shell-chips">
+          <button type="button" class="chip-cmd" data-cmd=":bookmarks">
+            ★ <span id="bookmarks-count">0</span> bookmarks
+          </button>
+          <button type="button" class="chip-cmd" data-cmd=":done">
+            ✓ <span id="done-count">0</span> done
+          </button>
+          <button type="button" class="chip-cmd" data-cmd=":all">
+            :ls all
+          </button>
+          <button type="button" class="chip-cmd" data-cmd=":clear">
+            ↺ reset
+          </button>
         </div>
       </div>
 
-      <div id="loading" class="loading hidden">
-        <div class="spinner"></div>
-        <span>Searching index...</span>
+      <!-- Mode Options & Compare Row -->
+      <div class="options-row">
+        <label class="toggle-label" title="Run keyword vs semantic search side-by-side">
+          <input type="checkbox" id="compare-toggle" />
+          <span class="toggle-text">compare keyword / meaning</span>
+        </label>
+
+        <div class="popular-patterns">
+          <span class="pattern-lbl">patterns:</span>
+          <button type="button" class="pat-badge" data-pattern="dynamic-programming">#dynamic-programming</button>
+          <button type="button" class="pat-badge" data-pattern="wqs-binary-search">#wqs-binary-search</button>
+          <button type="button" class="pat-badge" data-pattern="segment-tree">#segment-tree</button>
+          <button type="button" class="pat-badge" data-pattern="topological-sort">#topological-sort</button>
+          <button type="button" class="pat-badge" data-pattern="two-pointers">#two-pointers</button>
+          <button type="button" class="pat-badge" data-pattern="tree-dp">#tree-dp</button>
+        </div>
       </div>
 
-      <div id="results-count" class="results-count hidden"></div>
-
-      <div id="results-container" class="results-grid">
-        <!-- Results will be dynamically populated here -->
+      <!-- Filter Active Pill -->
+      <div id="filter-pill-wrap" class="filter-pill-wrap hidden">
+        <span class="active-filter-label">Filter:</span>
+        <span id="active-filter-text" class="active-filter-chip"></span>
+        <button type="button" id="clear-filter" class="btn-clear-filter">✕ clear</button>
       </div>
+
+      <!-- Status & Engine Latency Indicator -->
+      <div id="status-line" class="status-line">
+        <span id="status-text">ready</span>
+      </div>
+
+      <!-- Help / Modal Manual -->
+      <div id="help-modal" class="help-box hidden">
+        <div class="help-header">
+          <span>MANUAL(1) — findex search engine</span>
+          <button type="button" id="close-help" class="close-help">✕</button>
+        </div>
+        <pre class="help-content">
+NAME
+     findex — smart problem search engine for LeetCode, Codeforces, CSES & AtCoder
+
+SYNOPSIS
+     findex [query] [--mode=keyword|meaning|both] [--judge=all|leetcode|codeforces]
+
+SEARCH MODES
+     keyword      BM25/TF-IDF word matching across titles, tags, and statements.
+     meaning      Plain-English concept & alias search (e.g. "thief robbing", "aliens trick").
+     both         Hybrid weighted combination of keyword + semantic score.
+
+SPECIAL COMMANDS
+     :bookmarks   Show starred problems
+     :done        Show solved / marked done problems
+     :all         List all indexed problems
+     :help        Display this manual
+     :scrape      Trigger live problem scraper from LeetCode & Codeforces APIs
+
+FEATURES
+     • Find Similar: Click [≈ similar] on any card to find nearest pattern neighbors.
+     • Compare Mode: Toggle "compare keyword / meaning" to evaluate rankers side by side.
+        </pre>
+      </div>
+
+      <!-- Single Search Results Grid -->
+      <div id="results-view" class="results-view">
+        <div id="results-list" class="results-list"></div>
+      </div>
+
+      <!-- Compare Grid (Side by Side) -->
+      <div id="compare-view" class="compare-grid hidden">
+        <div class="compare-col">
+          <div class="compare-col-header">
+            <h3>Keyword Ranker (BM25)</h3>
+            <span id="kw-latency" class="col-latency"></span>
+          </div>
+          <div id="kw-results" class="results-list"></div>
+        </div>
+        <div class="compare-col">
+          <div class="compare-col-header">
+            <h3>Meaning Ranker (Semantic)</h3>
+            <span id="meaning-latency" class="col-latency"></span>
+          </div>
+          <div id="meaning-results" class="results-list"></div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <footer class="term-footer">
+        <span>findex v1.2 · LeetCode · Codeforces · CSES · AtCoder · <a href="https://github.com/sushil-kumar-saw/Findex" target="_blank">github</a></span>
+      </footer>
     </div>
 
-    <script>
-      const form = document.getElementById("search-form");
-      const questionInput = document.getElementById("question");
-      const resultsContainer = document.getElementById("results-container");
-      const loadingDiv = document.getElementById("loading");
-      const resultsCountDiv = document.getElementById("results-count");
-      const tagChips = document.querySelectorAll(".tag-chip");
-
-      // Handle Quick Tags
-      tagChips.forEach((chip) => {
-        chip.addEventListener("click", () => {
-          questionInput.value = chip.dataset.query;
-          performSearch(chip.dataset.query);
-        });
-      });
-
-      // Handle Form Submit
-      form.addEventListener("submit", (e) => {
-        e.preventDefault();
-        const query = questionInput.value.trim();
-        if (query) {
-          performSearch(query);
-        }
-      });
-
-      async function performSearch(query) {
-        loadingDiv.classList.remove("hidden");
-        resultsCountDiv.classList.add("hidden");
-        resultsContainer.innerHTML = "";
-
-        try {
-          const res = await fetch(`/search?question=${encodeURIComponent(query)}`);
-          const data = await res.json();
-
-          loadingDiv.classList.add("hidden");
-
-          if (!data || data.length === 0) {
-            resultsContainer.innerHTML = `
-              <div class="empty-state">
-                <p>No questions found for "<strong>${escapeHtml(query)}</strong>"</p>
-                <span>Try searching for terms like "Array", "Tree", "Stack", or "List".</span>
-              </div>
-            `;
-            return;
-          }
-
-          resultsCountDiv.textContent = `Found ${data.length} relevant questions`;
-          resultsCountDiv.classList.remove("hidden");
-
-          resultsContainer.innerHTML = data
-            .map(
-              (item) => `
-              <article class="question-card">
-                <div class="card-header">
-                  <h3 class="card-title">
-                    <a href="${item.url}" target="_blank" rel="noopener noreferrer">
-                      ${escapeHtml(item.title)}
-                      <span class="external-icon">↗</span>
-                    </a>
-                  </h3>
-                  ${
-                    item.difficulty
-                      ? `<span class="badge badge-${item.difficulty.toLowerCase()}">${item.difficulty}</span>`
-                      : ""
-                  }
-                </div>
-                <p class="card-statement">${escapeHtml(item.statement)}</p>
-                <div class="card-footer">
-                  <div class="card-tags">
-                    ${(item.tags || [])
-                      .map((tag) => `<span class="topic-tag">${escapeHtml(tag)}</span>`)
-                      .join("")}
-                  </div>
-                  <a class="source-link" href="${item.url}" target="_blank" rel="noopener noreferrer">
-                    Open Problem
-                  </a>
-                </div>
-              </article>
-            `
-            )
-            .join("");
-        } catch (err) {
-          loadingDiv.classList.add("hidden");
-          resultsContainer.innerHTML = `
-            <div class="error-state">
-              <p>An error occurred while fetching results. Please try again.</p>
-            </div>
-          `;
-        }
-      }
-
-      function escapeHtml(str) {
-        if (!str) return "";
-        return str
-          .replace(/&/g, "&amp;")
-          .replace(/</g, "&lt;")
-          .replace(/>/g, "&gt;")
-          .replace(/"/g, "&quot;")
-          .replace(/'/g, "&#039;");
-      }
-
-      // Initial search load with top questions
-      performSearch("");
-    </script>
+    <script src="/app.js"></script>
   </body>
 </html>

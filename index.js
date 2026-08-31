@@ -1,5 +1,7 @@
 const express = require("express");
 const path = require("path");
+const fs = require("fs");
+const { runScraper } = require("./scripts/scraper");
 
 const app = express();
 
@@ -14,178 +16,246 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static(path.join(__dirname, "public")));
 
 const PORT = process.env.PORT || 3000;
+const DATA_FILE = path.join(__dirname, "data/problems.json");
 
-// Question Bank / Dataset for Information Retrieval & Search
-const questionsDataset = [
-  {
-    id: 1,
-    title: "Two Sum",
-    url: "https://leetcode.com/problems/two-sum/",
-    statement: "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
-    tags: ["Array", "Hash Table"],
-    difficulty: "Easy"
-  },
-  {
-    id: 2,
-    title: "Add Two Numbers",
-    url: "https://leetcode.com/problems/add-two-numbers/",
-    statement: "You are given two non-empty linked lists representing two non-negative integers. Add the two numbers and return the sum as a linked list.",
-    tags: ["Linked List", "Math", "Recursion"],
-    difficulty: "Medium"
-  },
-  {
-    id: 3,
-    title: "Longest Substring Without Repeating Characters",
-    url: "https://leetcode.com/problems/longest-substring-without-repeating-characters/",
-    statement: "Given a string s, find the length of the longest substring without repeating characters using sliding window.",
-    tags: ["Hash Table", "String", "Sliding Window"],
-    difficulty: "Medium"
-  },
-  {
-    id: 4,
-    title: "Median of Two Sorted Arrays",
-    url: "https://leetcode.com/problems/median-of-two-sorted-arrays/",
-    statement: "Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.",
-    tags: ["Array", "Binary Search", "Divide and Conquer"],
-    difficulty: "Hard"
-  },
-  {
-    id: 5,
-    title: "Longest Palindromic Substring",
-    url: "https://leetcode.com/problems/longest-palindromic-substring/",
-    statement: "Given a string s, return the longest palindromic substring in s using dynamic programming or expand around center.",
-    tags: ["String", "Dynamic Programming"],
-    difficulty: "Medium"
-  },
-  {
-    id: 6,
-    title: "Reverse Linked List",
-    url: "https://leetcode.com/problems/reverse-linked-list/",
-    statement: "Given the head of a singly linked list, reverse the list, and return the reversed list iteratively or recursively.",
-    tags: ["Linked List", "Recursion"],
-    difficulty: "Easy"
-  },
-  {
-    id: 7,
-    title: "Valid Parentheses",
-    url: "https://leetcode.com/problems/valid-parentheses/",
-    statement: "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid using a stack.",
-    tags: ["String", "Stack"],
-    difficulty: "Easy"
-  },
-  {
-    id: 8,
-    title: "Binary Tree Level Order Traversal",
-    url: "https://leetcode.com/problems/binary-tree-level-order-traversal/",
-    statement: "Given the root of a binary tree, return the level order traversal of its nodes' values (i.e., from left to right, level by level) using BFS Queue.",
-    tags: ["Tree", "Breadth-First Search", "Binary Tree"],
-    difficulty: "Medium"
-  },
-  {
-    id: 9,
-    title: "Maximum Subarray (Kadane's Algorithm)",
-    url: "https://leetcode.com/problems/maximum-subarray/",
-    statement: "Given an integer array nums, find the subarray with the largest sum, and return its sum using Kadane's algorithm.",
-    tags: ["Array", "Divide and Conquer", "Dynamic Programming"],
-    difficulty: "Medium"
-  },
-  {
-    id: 10,
-    title: "Climbing Stairs",
-    url: "https://leetcode.com/problems/climbing-stairs/",
-    statement: "You are climbing a staircase. It takes n steps to reach the top. Each time you can either climb 1 or 2 steps. In how many distinct ways can you climb to the top?",
-    tags: ["Math", "Dynamic Programming", "Memoization"],
-    difficulty: "Easy"
-  },
-  {
-    id: 11,
-    title: "Course Schedule (Cycle Detection in Graph)",
-    url: "https://leetcode.com/problems/course-schedule/",
-    statement: "There are a total of numCourses courses you have to take. Determine if you can finish all courses using topological sort / Kahn's algorithm or DFS.",
-    tags: ["Depth-First Search", "Breadth-First Search", "Graph", "Topological Sort"],
-    difficulty: "Medium"
-  },
-  {
-    id: 12,
-    title: "Merge K Sorted Lists",
-    url: "https://leetcode.com/problems/merge-k-sorted-lists/",
-    statement: "You are given an array of k linked-lists lists, each linked-list is sorted in ascending order. Merge all the linked-lists into one sorted linked-list.",
-    tags: ["Linked List", "Divide and Conquer", "Heap (Priority Queue)", "Merge Sort"],
-    difficulty: "Hard"
+// In-Memory Problem Corpus
+let problemCorpus = [];
+
+function loadCorpus() {
+  if (fs.existsSync(DATA_FILE)) {
+    try {
+      problemCorpus = JSON.parse(fs.readFileSync(DATA_FILE, "utf-8"));
+      console.log(`[Corpus] Loaded ${problemCorpus.length} problems into memory.`);
+    } catch (e) {
+      console.error("[Corpus] Error parsing problems.json:", e.message);
+    }
   }
-];
+}
+loadCorpus();
 
-// Helper: Tokenize and clean text
+// Query Aliases & Concept Expansions (Inspired by Cosine)
+const ALIASES = {
+  "thief": ["house", "robber", "dynamic-programming"],
+  "robber": ["house", "robber", "dynamic-programming"],
+  "robbing": ["house", "robber", "dynamic-programming"],
+  "aliens trick": ["wqs-binary-search", "slope-trick", "convex-hull"],
+  "aliens": ["wqs-binary-search", "slope-trick"],
+  "lca": ["lowest-common-ancestor", "binary-lifting", "tree"],
+  "lis": ["longest-increasing-subsequence", "patience-sorting", "dynamic-programming"],
+  "rain water": ["trapping-rain-water", "monotonic-stack", "two-pointers"],
+  "water trap": ["trapping-rain-water", "monotonic-stack", "two-pointers"],
+  "cycle": ["topological-sort", "cycle-detection", "graph", "dfs"],
+  "dag": ["topological-sort", "graph-dp", "directed-acyclic-graph"],
+  "knapsack": ["0-1-knapsack", "bounded-knapsack", "dynamic-programming"],
+  "rmq": ["range-minimum-query", "segment-tree", "sparse-table"],
+  "prefix sum": ["prefix-sum", "cumulative-sum", "range-queries"],
+  "shortest path": ["dijkstra", "bfs", "bellman-ford", "shortest-path"],
+  "disjoint set": ["union-find", "dsu", "connected-components"]
+};
+
+// Tokenizer helper
 function tokenize(text) {
+  if (!text) return [];
   return text
     .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, "")
+    .replace(/[^a-z0-9\s-]/g, " ")
     .split(/\s+/)
     .filter(Boolean);
 }
 
-// TF-IDF / Term Frequency Search Scoring
-function searchQuestions(query) {
-  if (!query || !query.trim()) {
-    return questionsDataset.slice(0, 5);
-  }
+// BM25-style Keyword Search
+function scoreKeyword(problem, queryTerms) {
+  let score = 0;
+  const titleTokens = tokenize(problem.title);
+  const statementTokens = tokenize(problem.statement);
+  const tagTokens = (problem.tags || []).map(t => t.toLowerCase());
+  const patternTokens = (problem.patterns || []).map(p => p.toLowerCase());
 
-  const queryTerms = tokenize(query);
-  if (queryTerms.length === 0) {
-    return questionsDataset.slice(0, 5);
-  }
+  queryTerms.forEach(term => {
+    // Title exact word match
+    if (titleTokens.includes(term)) score += 12;
+    else if (problem.title.toLowerCase().includes(term)) score += 6;
 
-  const scored = questionsDataset.map((item) => {
-    const titleTokens = tokenize(item.title);
-    const statementTokens = tokenize(item.statement);
-    const tagTokens = tokenize(item.tags.join(" "));
+    // Pattern / Deep Taxonomy match
+    if (patternTokens.includes(term) || patternTokens.some(p => p.includes(term))) score += 10;
 
-    let score = 0;
+    // Tag match
+    if (tagTokens.includes(term) || tagTokens.some(t => t.includes(term))) score += 8;
 
-    queryTerms.forEach((term) => {
-      // Exact title matches get high weight
-      if (item.title.toLowerCase().includes(term)) score += 10;
-      // Tag matches get moderate weight
-      if (tagTokens.includes(term)) score += 5;
-      // Title token frequency
-      titleTokens.forEach((t) => {
-        if (t === term) score += 4;
-        else if (t.includes(term) || term.includes(t)) score += 2;
-      });
-      // Statement token frequency
-      statementTokens.forEach((s) => {
-        if (s === term) score += 2;
-        else if (s.includes(term) || term.includes(s)) score += 1;
-      });
-    });
-
-    return { ...item, score };
+    // Statement / story description match
+    if (statementTokens.includes(term)) score += 3;
+    else if (problem.statement && problem.statement.toLowerCase().includes(term)) score += 1.5;
   });
 
-  // Filter items that have at least some relevance, or fallback to all sorted
-  const matched = scored.filter((item) => item.score > 0);
-  matched.sort((a, b) => b.score - a.score);
+  return score;
+}
 
-  if (matched.length > 0) {
-    return matched.slice(0, 5);
+// Semantic / Meaning Search (Concept & Alias Expansion Scoring)
+function scoreMeaning(problem, queryTerms, rawQuery) {
+  let score = 0;
+  let expandedTerms = [...queryTerms];
+  const queryLower = rawQuery.toLowerCase().trim();
+
+  // Check alias dictionary
+  Object.keys(ALIASES).forEach(alias => {
+    if (queryLower.includes(alias)) {
+      expandedTerms.push(...ALIASES[alias]);
+    }
+  });
+
+  const allTokens = [
+    ...tokenize(problem.title),
+    ...tokenize(problem.statement),
+    ...(problem.tags || []).map(t => t.toLowerCase()),
+    ...(problem.patterns || []).map(p => p.toLowerCase())
+  ];
+
+  expandedTerms.forEach(term => {
+    if (allTokens.includes(term)) score += 5;
+    else if (allTokens.some(tok => tok.includes(term) || term.includes(tok))) score += 2.5;
+  });
+
+  return score;
+}
+
+// Main Search Algorithm
+function performSearch({ query = "", mode = "keyword", pattern = "", judge = "" }) {
+  const startTime = process.hrtime.bigint();
+  const queryLower = query.toLowerCase().trim();
+  const queryTerms = tokenize(queryLower);
+
+  // Check if any alias was triggered
+  let appliedExpansion = null;
+  Object.keys(ALIASES).forEach(alias => {
+    if (queryLower.includes(alias)) {
+      appliedExpansion = ALIASES[alias].join(" ");
+    }
+  });
+
+  let pool = problemCorpus;
+
+  // Filter by pattern if specified
+  if (pattern) {
+    const patLower = pattern.toLowerCase();
+    pool = pool.filter(p => 
+      (p.patterns && p.patterns.some(pat => pat.toLowerCase().includes(patLower))) ||
+      (p.tags && p.tags.some(tag => tag.toLowerCase().includes(patLower)))
+    );
   }
 
-  // If no direct keyword match, return top questions
-  return questionsDataset.slice(0, 5);
+  // Filter by judge if specified
+  if (judge && judge !== "all") {
+    pool = pool.filter(p => p.judgeSlug === judge.toLowerCase() || p.judge.toLowerCase() === judge.toLowerCase());
+  }
+
+  if (!queryTerms.length && !pattern) {
+    const defaultList = pool.slice(0, 15);
+    const endTime = process.hrtime.bigint();
+    const latencyMs = (Number(endTime - startTime) / 1e6).toFixed(2);
+    return {
+      results: defaultList,
+      total: defaultList.length,
+      mode,
+      latencyMs,
+      appliedExpansion
+    };
+  }
+
+  const scored = pool.map(problem => {
+    let kwScore = scoreKeyword(problem, queryTerms);
+    let meaningScore = scoreMeaning(problem, queryTerms, query);
+
+    let finalScore = 0;
+    if (mode === "keyword") finalScore = kwScore;
+    else if (mode === "meaning") finalScore = meaningScore;
+    else finalScore = (kwScore * 0.6) + (meaningScore * 0.4); // Hybrid / Both
+
+    return { ...problem, score: finalScore };
+  });
+
+  const matched = scored.filter(p => p.score > 0);
+  matched.sort((a, b) => b.score - a.score);
+
+  const finalResults = matched.length > 0 ? matched.slice(0, 20) : [];
+  const endTime = process.hrtime.bigint();
+  const latencyMs = (Number(endTime - startTime) / 1e6).toFixed(2);
+
+  return {
+    results: finalResults,
+    total: finalResults.length,
+    mode,
+    latencyMs,
+    appliedExpansion
+  };
 }
 
 // Routes
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index", { totalProblems: problemCorpus.length });
 });
 
 app.get("/search", (req, res) => {
-  const questionQuery = req.query.question || "";
-  const results = searchQuestions(questionQuery);
-  res.json(results);
+  const { question = "", mode = "keyword", pattern = "", judge = "" } = req.query;
+  const data = performSearch({ query: question, mode, pattern, judge });
+  res.json(data);
 });
 
-// Start Server if not imported as module
+// Find Similar Problems (Cosine-inspired)
+app.get("/similar", (req, res) => {
+  const { id } = req.query;
+  const target = problemCorpus.find(p => p.id === id);
+  if (!target) return res.json({ results: [], latencyMs: "0.0" });
+
+  const startTime = process.hrtime.bigint();
+  const targetPatterns = new Set((target.patterns || []).concat(target.tags || []));
+
+  const scored = problemCorpus
+    .filter(p => p.id !== id)
+    .map(p => {
+      let sim = 0;
+      (p.patterns || []).concat(p.tags || []).forEach(tag => {
+        if (targetPatterns.has(tag)) sim += 3;
+      });
+      if (p.difficulty === target.difficulty) sim += 1;
+      return { ...p, score: sim };
+    })
+    .filter(p => p.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 8);
+
+  const endTime = process.hrtime.bigint();
+  const latencyMs = (Number(endTime - startTime) / 1e6).toFixed(2);
+
+  res.json({ target, results: scored, latencyMs });
+});
+
+// Scrape Trigger Endpoint
+app.post("/api/scrape", async (req, res) => {
+  try {
+    const updated = await runScraper();
+    problemCorpus = updated;
+    res.json({ success: true, count: updated.length });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  }
+});
+
+// Stats Endpoint
+app.get("/api/stats", (req, res) => {
+  const judges = {};
+  const difficulties = {};
+  problemCorpus.forEach(p => {
+    judges[p.judge] = (judges[p.judge] || 0) + 1;
+    difficulties[p.difficulty || "Unrated"] = (difficulties[p.difficulty || "Unrated"] || 0) + 1;
+  });
+  res.json({
+    total: problemCorpus.length,
+    judges,
+    difficulties
+  });
+});
+
+// Start Server
 if (process.env.NODE_ENV !== "test" && require.main === module) {
   app.listen(PORT, () => {
     console.log(`Findex server is running on http://localhost:${PORT}`);

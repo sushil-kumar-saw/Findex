@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "scrape": "node scripts/scraper.js"
+    "scrape": "node scripts/scraper.js",
+    "import:az": "node scripts/merge_az_corpus.js"
   },
   "keywords": [],
   "author": "",
